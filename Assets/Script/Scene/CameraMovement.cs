@@ -50,7 +50,7 @@ public class CameraMovement : MonoBehaviour
         float scrollVal = Input.GetAxis("Mouse ScrollWheel");
         if (scrollVal != 0)
         {
-            m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView * (1 + scrollVal), MinOfView, MaxOfView);
+            m_Camera.fieldOfView = Mathf.Clamp(m_Camera.fieldOfView * (1 - scrollVal), MinOfView, MaxOfView);
         }
     }
     
