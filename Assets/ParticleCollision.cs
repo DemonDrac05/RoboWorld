@@ -35,13 +35,11 @@ public class ParticleCollision : MonoBehaviour
         {
             getPlayerStat = PlayerStat.playerStat;
             RangeDamage(getEnemyStat, getPlayerStat);
-            Debug.Log(getPlayerStat.health);
         }
         if (collision.GetComponent<Collider>() == Enemy.enemy.collider && getPlayerStat != null)
         {
             getEnemyStat = EnemyStat.enemyStat;
             RangeDamage(getPlayerStat, getEnemyStat);
-            Debug.Log(getEnemyStat.health);
         }
     }
 
