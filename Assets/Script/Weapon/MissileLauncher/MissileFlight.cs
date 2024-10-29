@@ -7,23 +7,22 @@ public class MissileFlight : MonoBehaviour
     public Vector3 controlPoint;
     public GameObject explosionEffect;
 
-    private Transform movingTarget;
-
-    private void Awake()
-        => movingTarget = MissileLaunch.missileManager.movingTarget;
-
-    private void OnEnable()
-    {
-        float offsetX = Random.Range(-controlPoint.x, controlPoint.y);
-        float offsetY = Random.Range(-controlPoint.x, controlPoint.y);
-        float offsetZ = Random.Range(-controlPoint.x, controlPoint.y);
-
-        controlPoint = new Vector3(offsetX, offsetY, offsetZ);
-        controlPoint += (transform.position + movingTarget.position) / 2;
-    }
+    [HideInInspector] public Transform movingTarget = null;
 
     private void Start()
-        => StartCoroutine(FlyAlongCurve(this.transform.position, movingTarget, controlPoint, flightDuration));
+    {
+        if (movingTarget != null)
+        {
+            float offsetX = Random.Range(-controlPoint.x, controlPoint.y);
+            float offsetY = Random.Range(-controlPoint.x, controlPoint.y);
+            float offsetZ = Random.Range(-controlPoint.x, controlPoint.y);
+
+            controlPoint = new Vector3(offsetX, offsetY, offsetZ);
+            controlPoint += (transform.position + movingTarget.position) / 2;
+
+            StartCoroutine(FlyAlongCurve(this.transform.position, movingTarget, controlPoint, flightDuration));
+        }
+    }
 
     Vector3 BezierCurve(Vector3 a, Vector3 b, Vector3 control, float t)
     {
@@ -56,6 +55,8 @@ public class MissileFlight : MonoBehaviour
         effect.Play();
 
         transform.position = movingTarget.position;
+
+        MissileLaunch.missileManager.targetList.Remove(this.gameObject);
 
         yield return new WaitUntil(() => effect.isStopped && effect.particleCount == 0);
 
