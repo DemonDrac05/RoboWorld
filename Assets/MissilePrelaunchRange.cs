@@ -10,6 +10,7 @@ public class MissilePrelaunchRange : MonoBehaviour
                 && MissileLaunch.missileManager.isPreLaunching)
             {
                 MissileLaunch.missileManager.enemyList.Add(collider.gameObject, 0f);
+                Debug.Log("trigger");
             }
         }
     }
