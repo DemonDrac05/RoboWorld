@@ -18,7 +18,7 @@ public class EnemyIdleState : EnemyState
 
     public override void FrameUpdate()
     {
-        if (enemy.attackRangeTrigger)
+        if (enemy.shootRangeTrigger)
         {
             enemy.stateMachine.ChangeState(enemy.attackState);
         }

@@ -10,10 +10,9 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Collider collider;
-    [HideInInspector] public Player player;
 
     [HideInInspector] public bool chaseRangeTrigger;
-    [HideInInspector] public bool attackRangeTrigger;
+    [HideInInspector] public bool shootRangeTrigger;
 
     public EnemyStateMachine stateMachine;
     public EnemyIdleState idleState;
@@ -21,7 +20,7 @@ public class Enemy : MonoBehaviour
     public EnemyAttackState attackState;
 
     public static Enemy enemy;
-    private void Awake()
+    public virtual void Awake()
     {
         enemy = this;
 
@@ -29,14 +28,12 @@ public class Enemy : MonoBehaviour
         idleState = new EnemyIdleState(this, stateMachine);
         chaseState = new EnemyChaseState(this, stateMachine);
         attackState = new EnemyAttackState(this, stateMachine);
-
     }
 
-    private void Start()
+    public virtual void Start()
     {
         animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
-        player = FindObjectOfType<Player>();
 
         stateMachine.Initialize(idleState);
     }

@@ -31,7 +31,7 @@ public class EnemyAttackState : EnemyState
 
         CheckFacingToPlayer();
 
-        if (!enemy.attackRangeTrigger && enemy.chaseRangeTrigger)
+        if (!enemy.shootRangeTrigger && enemy.chaseRangeTrigger)
         {
             enemy.stateMachine.ChangeState(enemy.chaseState);
         }

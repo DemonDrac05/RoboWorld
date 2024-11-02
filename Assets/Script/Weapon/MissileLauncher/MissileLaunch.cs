@@ -10,12 +10,10 @@ public class MissileLaunch : MonoBehaviour
     public int maxMissileQuantityForSingleTarget;
     public int currentMissileQuantity;
 
-    public Transform movingTarget;
-    public Dictionary<GameObject, float> enemyList = new();
-    public List<GameObject> targetList = new();
-
-    public bool isPreLaunching = true;
-    private float preLaunchTimer = 0f;
+    [HideInInspector] public Dictionary<GameObject, float> enemyList = new();
+    [HideInInspector] public List<GameObject> targetList = new();
+    [HideInInspector] public bool isPreLaunching = true;
+    [HideInInspector] public float preLaunchTimer = 0f;
 
     public static MissileLaunch missileManager;
 
