@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CyberMancubus_IdleState : EnemyState
 {
-    public CyberMancubus boss;
+    public Enemy boss;
     public CyberMancubus_IdleState(Enemy boss, EnemyStateMachine enemyStateMachine) : base(boss, enemyStateMachine)
     {
         this.boss = boss;
