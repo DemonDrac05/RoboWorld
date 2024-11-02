@@ -20,13 +20,13 @@ public class ParticleCollision : MonoBehaviour
 
         GameObject explosion = Instantiate(explosionPrefab, collisionEvents[0].intersection, Quaternion.identity);
 
-        if (collision.GetComponent<Rigidbody>() != null)
-        {
-            var rb = collision.GetComponent<Rigidbody>();
-            Vector3 newPos = new(-rb.transform.position.x, rb.transform.position.y, -rb.transform.position.z);
-            rb.AddForceAtPosition(collisionEvents[0].intersection * 10 - newPos, collisionEvents[0].intersection);
-            Debug.Log(collisionEvents[0].intersection);
-        }
+        //if (collision.GetComponent<Rigidbody>() != null)
+        //{
+        //    var rb = collision.GetComponent<Rigidbody>();
+        //    Vector3 newPos = new(-rb.transform.position.x, rb.transform.position.y, -rb.transform.position.z);
+        //    rb.AddForceAtPosition(collisionEvents[0].intersection * 10 - newPos, collisionEvents[0].intersection);
+        //    Debug.Log(collisionEvents[0].intersection);
+        //}
 
         var getPlayerStat = this.GetComponentInParent<PlayerStat>();
         var getEnemyStat = this.GetComponentInParent<EnemyStat>();

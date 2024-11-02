@@ -21,7 +21,7 @@ public class MissileLaunch : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Q) && isPreLaunching)
+        if (Input.GetKey(KeyCode.Space) && isPreLaunching)
         {
             preLaunchTimer += Time.deltaTime;
             if (preLaunchTimer > 0.25f)
