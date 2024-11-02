@@ -372,9 +372,8 @@ MonoBehaviour:
   rotationSpeed: 7
   animator: {fileID: 0}
   collider: {fileID: 0}
-  player: {fileID: 0}
   chaseRangeTrigger: 0
-  attackRangeTrigger: 0
+  shootRangeTrigger: 0
 --- !u!95 &250660890
 Animator:
   serializedVersion: 7
@@ -4134,7 +4133,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -11638,9 +11637,9 @@ MonoBehaviour:
   maxMissileQuantity: 20
   maxMissileQuantityForSingleTarget: 4
   currentMissileQuantity: 0
-  movingTarget: {fileID: 1291523353}
   targetList: []
   isPreLaunching: 1
+  preLaunchTimer: 0
 --- !u!4 &1207659093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
@@ -11694,9 +11693,8 @@ MonoBehaviour:
   rotationSpeed: 7
   animator: {fileID: 0}
   collider: {fileID: 0}
-  player: {fileID: 0}
   chaseRangeTrigger: 0
-  attackRangeTrigger: 0
+  shootRangeTrigger: 0
 --- !u!135 &1291523355
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -22746,9 +22744,8 @@ MonoBehaviour:
   rotationSpeed: 7
   animator: {fileID: 0}
   collider: {fileID: 0}
-  player: {fileID: 0}
   chaseRangeTrigger: 0
-  attackRangeTrigger: 0
+  shootRangeTrigger: 0
 --- !u!95 &2134062251
 Animator:
   serializedVersion: 7
