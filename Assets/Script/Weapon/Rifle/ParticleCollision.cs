@@ -28,44 +28,44 @@ public class ParticleCollision : MonoBehaviour
         //    Debug.Log(collisionEvents[0].intersection);
         //}
 
-        var getPlayerStat = this.GetComponentInParent<PlayerStat>();
-        var getEnemyStat = this.GetComponentInParent<EnemyStat>();
+        //var getPlayerStat = this.GetComponentInParent<PlayerStat>();
+        //var getEnemyStat = this.GetComponentInParent<EnemyStat>();
 
-        if (collision.GetComponent<Collider>() == Player.player.collider && getEnemyStat != null)
-        {
-            getPlayerStat = PlayerStat.playerStat;
-            RangeDamage(getEnemyStat, getPlayerStat);
-        }
-        if (collision.GetComponent<Collider>() == Enemy.enemy.collider && getPlayerStat != null)
-        {
-            getEnemyStat = EnemyStat.enemyStat;
-            RangeDamage(getPlayerStat, getEnemyStat);
-        }
+        //if (collision.GetComponent<Collider>() == Player.player.collider && getEnemyStat != null)
+        //{
+        //    getPlayerStat = PlayerStat.playerStat;
+        //    RangeDamage(getEnemyStat, getPlayerStat);
+        //}
+        //if (collision.GetComponent<Collider>() == Enemy.enemy.collider && getPlayerStat != null)
+        //{
+        //    getEnemyStat = EnemyStat.enemyStat;
+        //    RangeDamage(getPlayerStat, getEnemyStat);
+        //}
     }
 
-    private void RangeDamage(BaseStat attacker, BaseStat defender)
-    {
-        var totalDamage = attacker.rangeWeaponDamage - defender.defense;
-        if (defender.shield > 0f)
-        {
-            totalDamage = attacker.rangeWeaponDamage - defender.shield;
-            if (totalDamage > 0f)
-            {
-                defender.shield = 0f;
-                defender.health -= (totalDamage - defender.defense);
-                if (defender.health > defender.maxHealth)
-                {
-                    defender.health = defender.maxHealth;
-                }
-            }
-            else
-            {
-                defender.shield = -totalDamage;
-            }
-        }
-        else
-        {
-            defender.health -= totalDamage;
-        }
-    }
+    //private void RangeDamage(BaseStat attacker, BaseStat defender)
+    //{
+    //    var totalDamage = attacker.rangeWeaponDamage - defender.defense;
+    //    if (defender.shield > 0f)
+    //    {
+    //        totalDamage = attacker.rangeWeaponDamage - defender.shield;
+    //        if (totalDamage > 0f)
+    //        {
+    //            defender.shield = 0f;
+    //            defender.health -= (totalDamage - defender.defense);
+    //            if (defender.health > defender.maxHealth)
+    //            {
+    //                defender.health = defender.maxHealth;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            defender.shield = -totalDamage;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        defender.health -= totalDamage;
+    //    }
+    //}
 }

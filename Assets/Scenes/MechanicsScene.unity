@@ -333,29 +333,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
   m_PrefabInstance: {fileID: 2106438277}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &250660888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 250660887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead96133074790f40891714772697db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 300
-  health: 0
-  defense: 5
-  shield: 0
-  rangeWeaponDamage: 25
-  meleeWeaponDamage: 0
-  rangeWeaponSpeed: 12
-  meleeWeaponSpeed: 0
-  collideDamage: 15
-  explodeDamage: 50
-  explosionPrefab: {fileID: 0}
 --- !u!114 &250660889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11049,9 +11026,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 836202732}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 836202734}
   m_SourcePrefab: {fileID: 100100000, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
 --- !u!1 &836202727 stripped
 GameObject:
@@ -11156,26 +11130,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &836202734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 836202727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 260a8650b42dd774299ce87b07a1d26b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 1500
-  health: 0
-  defense: 0
-  shield: 0
-  rangeWeaponDamage: 15
-  meleeWeaponDamage: 30
-  rangeWeaponSpeed: 30
-  meleeWeaponSpeed: 1.25
 --- !u!1 &858454321
 GameObject:
   m_ObjectHideFlags: 0
@@ -11716,29 +11670,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1291523356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291523350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead96133074790f40891714772697db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 300
-  health: 0
-  defense: 5
-  shield: 0
-  rangeWeaponDamage: 25
-  meleeWeaponDamage: 0
-  rangeWeaponSpeed: 12
-  meleeWeaponSpeed: 0
-  collideDamage: 15
-  explodeDamage: 50
-  explosionPrefab: {fileID: 0}
 --- !u!1001 &1338338341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12162,9 +12093,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2134062250}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2134062249}
   m_SourcePrefab: {fileID: 100100000, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
 --- !u!1 &1389443907
 GameObject:
@@ -22696,38 +22624,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 250660889}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 250660888}
   m_SourcePrefab: {fileID: 100100000, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
 --- !u!1 &2134062248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
   m_PrefabInstance: {fileID: 1338338341}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2134062249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134062248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead96133074790f40891714772697db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 300
-  health: 0
-  defense: 5
-  shield: 0
-  rangeWeaponDamage: 25
-  meleeWeaponDamage: 0
-  rangeWeaponSpeed: 12
-  meleeWeaponSpeed: 0
-  collideDamage: 15
-  explodeDamage: 50
-  explosionPrefab: {fileID: 0}
 --- !u!114 &2134062250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23217,9 +23119,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1291523354}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1291523356}
   m_SourcePrefab: {fileID: 100100000, guid: 3dc694ecf22996e4580026e848f0ce9e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
