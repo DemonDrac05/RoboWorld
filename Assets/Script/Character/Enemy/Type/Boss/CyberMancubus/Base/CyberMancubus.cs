@@ -30,6 +30,6 @@ public class CyberMancubus : Boss
     public override void Start()
     {
         animator = GetComponent<Animator>();
-        stateMachine.Initialize(CyberMancubus_LeapState);
+        stateMachine.Initialize(CyberMancubus_IdleState);
     }
 }
