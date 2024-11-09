@@ -2,27 +2,34 @@ using UnityEngine;
 
 public class CyberMancubus : Boss
 {
-    public CyberMancubus_IdleState idleState;
-    public CyberMancubus_ChaseState chaseState;
-    public CyberMancubus_LeapState leapState;
+    public Transform origin;
 
-    public CyberMancubus_MeleeAttackState meleeAttackState;
-    public CyberMancubus_RangeAttackState rangeAttackState;
+    [Header("=== Specific Properties ===========")]
+    public bool spawnRangeTrigger;
+
+    public CyberMancubus_IdleState CyberMancubus_IdleState;
+    public CyberMancubus_SpawnState CyberMancubus_SpawnState;
+    public CyberMancubus_ChaseState CyberMancubus_ChaseState;
+    public CyberMancubus_LeapState CyberMancubus_LeapState;
+
+    public CyberMancubus_MeleeAttackState CyberMancubus_MeleeAttackState;
+    public CyberMancubus_RangeAttackState CyberMancubus_RangeAttackState;
 
     public override void Awake()
     {
         stateMachine = new EnemyStateMachine();
-        idleState = new CyberMancubus_IdleState(this, stateMachine);
-        chaseState = new CyberMancubus_ChaseState(this, stateMachine);
-        leapState = new CyberMancubus_LeapState(this, stateMachine);
+        CyberMancubus_IdleState = new CyberMancubus_IdleState(this, stateMachine);
+        CyberMancubus_SpawnState = new CyberMancubus_SpawnState(this, stateMachine);
+        CyberMancubus_ChaseState = new CyberMancubus_ChaseState(this, stateMachine);
+        CyberMancubus_LeapState = new CyberMancubus_LeapState(this, stateMachine);
 
-        meleeAttackState = new CyberMancubus_MeleeAttackState(this, stateMachine);
-        rangeAttackState = new CyberMancubus_RangeAttackState(this, stateMachine);
+        CyberMancubus_MeleeAttackState = new CyberMancubus_MeleeAttackState(this, stateMachine);
+        CyberMancubus_RangeAttackState = new CyberMancubus_RangeAttackState(this, stateMachine);
     }
 
     public override void Start()
     {
         animator = GetComponent<Animator>();
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(CyberMancubus_LeapState);
     }
 }

@@ -10,12 +10,9 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
+        player = this;
+
         currentHealth = playerStat.maxHealth;
         currentShield = playerStat.maxShield;
-    }
-
-    private void Update()
-    {
-
     }
 }

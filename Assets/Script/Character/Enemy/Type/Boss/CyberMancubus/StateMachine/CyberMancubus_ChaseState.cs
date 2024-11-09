@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class CyberMancubus_ChaseState : EnemyState
 {
-    public CyberMancubus boss;
+    private CyberMancubus boss;
 
     private float movementSpeed;
     private float rotationSpeed;
 
-    public CyberMancubus_ChaseState(Enemy boss, EnemyStateMachine enemyStateMachine) : base(boss, enemyStateMachine)
+    public CyberMancubus_ChaseState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
+        this.boss = enemy as CyberMancubus;
+
         this.movementSpeed = boss.movementSpeed;
         this.rotationSpeed = boss.rotationSpeed;
     }
@@ -28,7 +30,7 @@ public class CyberMancubus_ChaseState : EnemyState
         if (boss.shootRangeTrigger)
         {
             int random = Random.Range(0, 1);
-            boss.stateMachine.ChangeState(random == 0 ? boss.leapState : enemy.idleState);
+            boss.stateMachine.ChangeState(random == 0 ? boss.CyberMancubus_LeapState : boss.CyberMancubus_RangeAttackState);
         }
         else
         {

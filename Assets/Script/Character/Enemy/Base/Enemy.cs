@@ -46,4 +46,15 @@ public class Enemy : MonoBehaviour
     {
         stateMachine.enemyState.FrameUpdate();
     }
+
+    public void FacingToPlayer()
+    {
+        Vector3 direction = (Player.player.transform.position - this.transform.position).normalized;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
 }

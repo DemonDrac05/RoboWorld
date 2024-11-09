@@ -1,3 +1,5 @@
 using UnityEngine;
 
-public class Boss : Enemy { }
+public class Boss : Enemy
+{
+}

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CyberMancubus_IdleState : EnemyState
 {
-    public Enemy boss;
-    public CyberMancubus_IdleState(Enemy boss, EnemyStateMachine enemyStateMachine) : base(boss, enemyStateMachine)
+    public CyberMancubus boss;
+    public CyberMancubus_IdleState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
-        this.boss = boss;
+        this.boss = enemy as CyberMancubus;
     }
 
     public override void EnterState()
@@ -15,14 +15,14 @@ public class CyberMancubus_IdleState : EnemyState
 
     public override void FrameUpdate()
     {
-        //if (boss.shootRangeTrigger)
-        //{
-
-        //}
-        //else if (boss.chaseRangeTrigger)
-        //{
-        //    boss.stateMachine.ChangeState(boss.chaseState);
-        //}
+        if (boss.shootRangeTrigger)
+        {
+            boss.stateMachine.ChangeState(boss.CyberMancubus_RangeAttackState);
+        }
+        else if (boss.chaseRangeTrigger)
+        {
+            boss.stateMachine.ChangeState(boss.CyberMancubus_ChaseState);
+        }
     }
 
     public override void PhysicsUpdate()
