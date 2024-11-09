@@ -4452,7 +4452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 8903520752910490919, guid: fb741105e01ea284a9c5e5886c9805d8, type: 3}
   maxMissileQuantity: 20
-  maxMissileQuantityForSingleTarget: 4
+  maxMissileQuantityForSingleTarget: 0
   currentMissileQuantity: 0
   targetList: []
   isPreLaunching: 1
