@@ -24,7 +24,7 @@ public class EnemyAttackState : EnemyState
     public override void FrameUpdate()
     {
         var lightningBeam = enemy.GetComponentInChildren<ParticleSystem>();
-        if (!lightningBeam.isPlaying)
+        if (!lightningBeam.isPlaying && lightningBeam != null)
         {
             lightningBeam.Play();
         }

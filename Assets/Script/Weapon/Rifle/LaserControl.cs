@@ -28,6 +28,6 @@ public class LaserControl : MonoBehaviour
             laserBeam.Stop();
         }
 
-        laserBeam.transform.position = new Vector3(player.transform.position.x, 1.3f, player.transform.position.z);
+        //laserBeam.transform.position = new Vector3(player.transform.position.x, 1.3f, player.transform.position.z);
     }
 }

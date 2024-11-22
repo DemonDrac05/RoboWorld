@@ -31,7 +31,7 @@ public class CameraMovement : MonoBehaviour
         float radianOfView = Mathf.Deg2Rad * AngleOfView;
         float heightOfView = this.transform.position.y;
 
-        float distanceCam2Player = heightOfView * Mathf.Tan(radianOfView / 2);
+        float distanceCam2Player = heightOfView * Mathf.Tan(radianOfView / 3);
         float horizontalOnPlane = playerTransform.position.z - distanceCam2Player;
 
         float verticalOnPlane = playerTransform.position.x;

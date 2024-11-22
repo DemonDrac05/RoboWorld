@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public Animator animator;
     [HideInInspector] public Collider collider;
 
+    [HideInInspector] public Rigidbody rb;
+
     [HideInInspector] public bool chaseRangeTrigger;
     [HideInInspector] public bool shootRangeTrigger;
 
@@ -34,6 +36,7 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
 
         stateMachine.Initialize(idleState);
     }

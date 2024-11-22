@@ -1,8 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class PlayerStat : MonoBehaviour
+
+public class PlayerStat : BaseStatManager
 {
+    public static PlayerStat playerStat;
 
+    public override void Awake()
+    {
+        base.Awake();
+        playerStat = this;
+    }
 }

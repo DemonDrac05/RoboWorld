@@ -4,15 +4,17 @@ public class Player : MonoBehaviour
 {
     [Header("=== Player Properties ===========")]
     public LayerMask clickableLayer;
+    public LayerMask nonClickableLayer;
 
     public float movementSpeed;
     public float rotationSpeed;
 
-    public bool isMoving;
+    [HideInInspector] public bool isMoving = false;
+    [HideInInspector] public Vector3 direction;
 
-    [HideInInspector] public Rigidbody rigidbody;
+    [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Animator animator;
-    [HideInInspector] public Collider collider;
+    [HideInInspector] public Collider playerCollider;
 
     public PlayerStateMachine stateMachine;
     public MovementState movementState;
@@ -31,9 +33,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        collider = GetComponent<Collider>();
+        playerCollider = GetComponent<Collider>();
 
         stateMachine.Initialize(movementState);
     }

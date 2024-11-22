@@ -1,25 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class EnemyStat : BaseStat
+public class EnemyStat : BaseStatManager
 {
-    //[Header("=== Other Damage ==========")]
-    //public float collideDamage;
-    //public float explodeDamage;
+    public static EnemyStat enemyStat;
 
-    //[Header("=== Prefabs ==========")]
-    //public GameObject explosionPrefab;
-
-    //public static EnemyStat enemyStat;
-
-    //private void Awake() => enemyStat = this;
-    //private void Update()
-    //{
-    //    if (health <= 0f)
-    //    {
-    //        GameObject explosion = Instantiate(explosionPrefab);
-    //        Destroy(gameObject);
-    //    }
-    //}
+    public override void Awake()
+    {
+        base.Awake();
+        enemyStat = this;
+    }
 }

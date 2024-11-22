@@ -14,21 +14,16 @@ public class MovementState : PlayerState
     private readonly float movementSpeed;
     private readonly float rotationSpeed;
 
-    private bool isMoving;
-
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
         this.player = player;
 
         this.movementSpeed = player.movementSpeed;
         this.rotationSpeed = player.rotationSpeed;
-
-        this.isMoving = player.isMoving;
     }
 
     public override void EnterState()
     {
-        isMoving = player.isMoving = false;
         player.animator.Play("Idle");
     }
 
@@ -49,34 +44,46 @@ public class MovementState : PlayerState
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, player.clickableLayer))
             {
                 targetPosition = hit.point;
-                isMoving = true;
+                player.isMoving = true;
             }
+            //else if (Physics.Raycast(ray, out hit, Mathf.Infinity, player.nonClickableLayer))
+            //{
+            //    targetPosition = player.transform.position;
+            //    player.isMoving = false;
+            //}
         }
-        if (isMoving)
+        if (player.isMoving)
         {
             MovePlayer();
+        }
+        else
+        {
+            targetPosition = player.transform.position;
+            player.animator.Play("Idle");
         }
     }
 
     void MovePlayer()
     {
-        Vector3 direction = (targetPosition - player.transform.position).normalized;
+        player.direction = (targetPosition - player.transform.position).normalized;
         float distance = Vector3.Distance(player.transform.position, targetPosition);
 
-        if (direction != Vector3.zero)
+        // -- ROTATE BY DIRECTION ----------
+        if (player.direction != Vector3.zero)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(player.direction);
             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
+        // -- MOVE BY DIRECTION ----------
         if (distance > 0.1f)
         {
-            player.transform.position += direction * movementSpeed * Time.deltaTime;
+            player.transform.position += player.direction * movementSpeed * Time.deltaTime;
             player.animator.Play("Run With Sword");
         }
         else
         {
-            isMoving = false;
+            player.isMoving = false;
             player.animator.Play("Idle");
         }
     }

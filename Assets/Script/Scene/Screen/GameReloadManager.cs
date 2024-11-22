@@ -7,7 +7,7 @@ public class GameReloadManager : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerHealth.player.currentHealth <= 0f)
+        if (PlayerStat.playerStat.Health <= 0f)
         {
             reloadSceneCanvas.SetActive(true);
         }
