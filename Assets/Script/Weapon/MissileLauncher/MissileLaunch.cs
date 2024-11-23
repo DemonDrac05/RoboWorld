@@ -64,9 +64,16 @@ public class MissileLaunch : MonoBehaviour
         {
             foreach (var enemy in enemyList.Keys.ToList())
             {
-                float distance
-                    = Vector3.Distance(Player.player.transform.position, enemy.transform.position);
-                enemyList[enemy] = distance;
+                if (enemy.GetComponent<EnemyHealth>().currentHealth <= 0f)
+                {
+                    enemyList.Remove(enemy);
+                }
+                else
+                {
+                    float distance
+                        = Vector3.Distance(Player.player.transform.position, enemy.transform.position);
+                    enemyList[enemy] = distance;
+                }
             }
             enemyList = enemyList.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
         }

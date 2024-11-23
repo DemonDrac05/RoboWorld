@@ -9,10 +9,6 @@ public class CombatManager : MonoBehaviour
     public void ApplyRangedDamage(BaseStatManager attacker, BaseStatManager defender)
     {
         var totalRangedDamage = attacker.rangeWeaponDamage - defender.Defense;
-        if (totalRangedDamage < 0f)
-        {
-            totalRangedDamage = -totalRangedDamage;
-        }
         if (defender.Shield > 0f)
         {
             var totalDamageToShield = attacker.rangeWeaponDamage - defender.Shield;
@@ -24,12 +20,12 @@ public class CombatManager : MonoBehaviour
             }
             else if (totalDamageToShield < 0f)
             {
-                defender.Shield += totalDamageToShield;
+                defender.Shield -= attacker.rangeWeaponDamage;
             }
         }
         else
         {
-            defender.Health -= totalRangedDamage;
+            defender.Health -= Mathf.Max(0f, totalRangedDamage);
         }
     }
 }

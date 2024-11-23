@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class MovementState : PlayerState
 {
@@ -65,17 +60,7 @@ public class MovementState : PlayerState
 
     void MovePlayer()
     {
-        player.direction = (targetPosition - player.transform.position).normalized;
         float distance = Vector3.Distance(player.transform.position, targetPosition);
-
-        // -- ROTATE BY DIRECTION ----------
-        if (player.direction != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(player.direction);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-
-        // -- MOVE BY DIRECTION ----------
         if (distance > 0.1f)
         {
             player.transform.position += player.direction * movementSpeed * Time.deltaTime;

@@ -38,12 +38,10 @@ public class ParticleCollision : MonoBehaviour
             PlayerStat targetPlayerStat = collision.GetComponent<PlayerStat>();
             CombatManager.instance.ApplyRangedDamage(enemyStat, targetPlayerStat);
         }
-        else if (collisionRb == Enemy.enemy.rb && playerStat != null)
+        if (collisionRb == Enemy.enemy.rb && playerStat != null)
         {
             EnemyStat targetEnemyStat = collision.GetComponent<EnemyStat>();
             CombatManager.instance.ApplyRangedDamage(playerStat, targetEnemyStat);
         }
     }
-
-
 }
