@@ -18,30 +18,30 @@ public class ParticleCollision : MonoBehaviour
     {
         int numCollisionEvents = part.GetCollisionEvents(collision, collisionEvents);
 
-        GameObject explosion = Instantiate(explosionPrefab, collisionEvents[0].intersection, Quaternion.identity);
-
-        //if (collision.GetComponent<Rigidbody>() != null)
-        //{
-        //    var rb = collision.GetComponent<Rigidbody>();
-        //    Vector3 newPos = new(-rb.transform.position.x, rb.transform.position.y, -rb.transform.position.z);
-        //    rb.AddForceAtPosition(collisionEvents[0].intersection * 10 - newPos, collisionEvents[0].intersection);
-        //}
-
-        Rigidbody collisionRb = collision.GetComponent<Rigidbody>();
-        if (collisionRb == null) return;
-
-        PlayerStat playerStat = GetComponentInParent<PlayerStat>();
-        EnemyStat enemyStat = GetComponentInParent<EnemyStat>();
-
-        if (collisionRb == Player.player.rb && enemyStat != null)
+        for (int i = 0; i < numCollisionEvents; i++)
         {
-            PlayerStat targetPlayerStat = collision.GetComponent<PlayerStat>();
-            CombatManager.instance.ApplyRangedDamage(enemyStat, targetPlayerStat);
-        }
-        if (collisionRb == Enemy.enemy.rb && playerStat != null)
-        {
-            EnemyStat targetEnemyStat = collision.GetComponent<EnemyStat>();
-            CombatManager.instance.ApplyRangedDamage(playerStat, targetEnemyStat);
+            Vector3 collisionPoint = collisionEvents[i].intersection;
+            Instantiate(explosionPrefab, collisionPoint, Quaternion.identity);
+
+            var enemyStat = collision.GetComponent<EnemyStat>();
+            var playerStat = collision.GetComponent<PlayerStat>();
+
+            if (enemyStat != null)
+            {
+                var player = this.GetComponentInParent<PlayerStat>();
+                if (player != null)
+                {
+                    CombatManager.instance.ApplyRangedDamage(player, enemyStat);
+                }
+            }
+            else if (playerStat != null)
+            {
+                var enemy = this.GetComponentInParent<EnemyStat>();
+                if (enemy != null)
+                {
+                    CombatManager.instance.ApplyRangedDamage(enemy, playerStat);
+                }
+            }
         }
     }
 }
