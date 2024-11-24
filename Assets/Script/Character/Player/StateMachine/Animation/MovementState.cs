@@ -60,6 +60,7 @@ public class MovementState : PlayerState
 
     void MovePlayer()
     {
+        player.direction = (targetPosition - player.transform.position).normalized;
         float distance = Vector3.Distance(player.transform.position, targetPosition);
         if (distance > 0.1f)
         {
