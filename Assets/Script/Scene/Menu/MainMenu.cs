@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("TerrainScene");
+        SceneManager.LoadScene("MechanicsScene");
     }
 
     public void QuitGame()
