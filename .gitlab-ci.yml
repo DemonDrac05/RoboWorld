@@ -192,11 +192,11 @@ test-editmode-with-junit-reports:
 #    BUILD_TARGET: StandaloneLinux64
 #    SCRIPTING_BACKEND: IL2CPP
 
-build-StandaloneOSX:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
-  variables:
-    BUILD_TARGET: StandaloneOSX
+#build-StandaloneOSX:
+#  <<: *build
+#  image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
+#  variables:
+#    BUILD_TARGET: StandaloneOSX
 
 #Note: build target names changed in recent versions, use this for versions < 2017.2:
 # build-StandaloneOSXUniversal:
@@ -211,22 +211,22 @@ build-StandaloneWindows64:
     BUILD_TARGET: StandaloneWindows64
 
 # For webgl support, you need to set Compression Format to Disabled for v0.9. See https://github.com/game-ci/docker/issues/75
-build-WebGL:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
-  # Temporary workaround for https://github.com/game-ci/docker/releases/tag/v0.9 and webgl support in current project to prevent errors with missing ffmpeg
+#build-WebGL:
+#  <<: *build
+#  image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
+#  # Temporary workaround for https://github.com/game-ci/docker/releases/tag/v0.9 and webgl support in current project to prevent errors with missing ffmpeg
   before_script:
     - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
     - apt-get update && apt-get install ffmpeg -y
   variables:
     BUILD_TARGET: WebGL
 
-build-android:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
-  variables:
-    BUILD_TARGET: Android
-    BUILD_APP_BUNDLE: "false"
+#build-android:
+#  <<: *build
+#  image: $IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
+#  variables:
+#    BUILD_TARGET: Android
+#    BUILD_APP_BUNDLE: "false"
 
 #build-android-il2cpp:
 #  <<: *build
