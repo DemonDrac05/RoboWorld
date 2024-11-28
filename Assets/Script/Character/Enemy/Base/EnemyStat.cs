@@ -3,9 +3,9 @@ public class EnemyStat : BaseStatManager
 {
     public static EnemyStat enemyStat;
 
-    public override void Awake()
+    public override void OnEnable()
     {
-        base.Awake();
+        base.OnEnable();
         enemyStat = this;
     }
 }

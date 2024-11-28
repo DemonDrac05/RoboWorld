@@ -1,37 +1,48 @@
+using Game.Stats;
 using UnityEngine;
 
 public class BaseStatManager : MonoBehaviour
 {
     public BaseStatSO baseStatSO;
 
-    [Header("=== Basic Stat ==========")]
-    public float Health;
-    public float Shield;
-    public float Defense;
+    public float Health { get; private set; }
+    public float Shield { get; private set; }
+    public float Defense { get; private set; }
+    public float RangeWeaponDamage { get; private set; }
+    public float MeleeWeaponDamage { get; private set; }
+    public float RangeWeaponSpeed { get; private set; }
+    public float MeleeWeaponSpeed { get; private set; }
 
-    [Header("=== Weapon Damage ==========")]
-    public float rangeWeaponDamage;
-    public float meleeWeaponDamage;
+    public virtual void OnEnable() => InitializeStat();
 
-    [Header("=== Weapon Speed ==========")]
-    public float rangeWeaponSpeed;
-    public float meleeWeaponSpeed;
-
-    public virtual void Awake()
-    {
-        InitializeStat();
-    }
-
-    private void InitializeStat()
+    public virtual void InitializeStat()
     {
         Health = baseStatSO.maxHealth;
         Shield = baseStatSO.maxShield;
         Defense = baseStatSO.maxDefense;
 
-        rangeWeaponDamage = baseStatSO.rangeWeaponDamage;
-        meleeWeaponDamage = baseStatSO.meleeWeaponDamage;
+        RangeWeaponDamage = baseStatSO.rangeWeaponDamage;
+        MeleeWeaponDamage = baseStatSO.meleeWeaponDamage;
 
-        rangeWeaponSpeed = baseStatSO.rangeWeaponSpeed;
-        meleeWeaponSpeed = baseStatSO.meleeWeaponSpeed;
+        RangeWeaponSpeed = baseStatSO.rangeWeaponSpeed;
+        MeleeWeaponSpeed = baseStatSO.meleeWeaponSpeed;
+    }
+
+    protected void SetHealth(float val)
+    {
+        Health = Mathf.Clamp(val, 0, baseStatSO.maxShield);
+    }
+    protected void SetShield(float val)
+    {
+        Shield = Mathf.Clamp(val, 0, baseStatSO.maxShield);
+    }
+
+    public void TakeHealthDamage(float damage)
+    {
+        Health = Mathf.Max(0f, Health - damage);
+    }
+    public void TakeShieldDamge(float damage)
+    {
+        Shield = Mathf.Max(0f, Shield - damage);
     }
 }
