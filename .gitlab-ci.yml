@@ -160,12 +160,32 @@ test-playmode-with-junit-reports:
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: JUNIT
+  script:
+    - chmod +x ./ci/test.sh && ./ci/test.sh
+    - ls $UNITY_DIR/$TEST_PLATFORM-coverage
+  artifacts:
+    when: always
+    paths:
+      - $UNITY_DIR/playmode-results.xml
+      - $UNITY_DIR/playmode-coverage/
+    reports:
+      junit: $UNITY_DIR/playmode-results.xml
 
 test-editmode-with-junit-reports:
   <<: *test-with-junit-reports
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: JUNIT
+  script:
+    - chmod +x ./ci/test.sh && ./ci/test.sh
+    - ls $UNITY_DIR/$TEST_PLATFORM-coverage
+  artifacts:
+    when: always
+    paths:
+      - $UNITY_DIR/playmode-results.xml
+      - $UNITY_DIR/playmode-coverage/
+    reports:
+      junit: $UNITY_DIR/playmode-results.xml
 
 .build: &build
   stage: build_and_test
