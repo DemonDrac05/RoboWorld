@@ -126,3 +126,4 @@ MonoBehaviour:
   flightDuration: 2
   controlPoint: {x: 25, y: 15, z: 25}
   explosionEffect: {fileID: 1317152850151739053, guid: 941684c772b3ffb4fb9064c22cadbc1a, type: 3}
+  movingTarget: {fileID: 0}
