@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5609af468d32344ad8e5d060b53402, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  maxHealth: 0
-  maxShield: 0
-  maxDefense: 0
-  rangeWeaponDamage: 0
-  meleeWeaponDamage: 0
+  maxHealth: 1500
+  maxShield: 200
+  maxDefense: 35
+  rangeWeaponDamage: 75
+  meleeWeaponDamage: 150
   rangeWeaponSpeed: 0
   meleeWeaponSpeed: 0
-  maxStamina: 0
-  missileDamage: 0
-  missileAOEDamage: 0
-  missileLaunchingTime: 0
-  missileLaunchingCooldown: 0
-  piercingPercentage: 0
-  shieldRecPercentage: 0
-  shieldRecDuration: 0
-  staminaRecPercentage: 0
-  staminaRecDuration: 0
+  maxStamina: 250
+  missileDamage: 15
+  missileAOEDamage: 25
+  missileLaunchingTime: 0.25
+  missileLaunchingCooldown: 5
+  piercingPercentage: 0.05
+  shieldRecPercentage: 0.05
+  shieldRecDuration: 1
+  staminaRecPercentage: 0.1
+  staminaRecDuration: 1
