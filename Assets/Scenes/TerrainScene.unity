@@ -1505,11 +1505,11 @@ PrefabInstance:
     - target: {fileID: 6205833047209149656, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
       propertyPath: baseStatSO
       value: 
-      objectReference: {fileID: 11400000, guid: 0a582b1e2c8315a408df37ae452c7b15, type: 2}
+      objectReference: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
     - target: {fileID: 6205833047209149656, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
       propertyPath: playerStatSO
       value: 
-      objectReference: {fileID: 11400000, guid: 0a582b1e2c8315a408df37ae452c7b15, type: 2}
+      objectReference: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
     - target: {fileID: 6215115131058756319, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 7.9513863e-16
