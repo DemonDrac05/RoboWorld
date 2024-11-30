@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5609af468d32344ad8e5d060b53402, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  maxShield: 0
+  maxDefense: 0
+  rangeWeaponDamage: 0
+  meleeWeaponDamage: 0
+  rangeWeaponSpeed: 0
+  meleeWeaponSpeed: 0
+  maxStamina: 0
+  missileDamage: 0
+  missileAOEDamage: 0
+  missileLaunchingTime: 0
+  missileLaunchingCooldown: 0
+  piercingPercentage: 0
+  shieldRecPercentage: 0
+  shieldRecDuration: 0
+  staminaRecPercentage: 0
+  staminaRecDuration: 0
