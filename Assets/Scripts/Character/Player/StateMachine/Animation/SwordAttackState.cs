@@ -4,9 +4,9 @@ public class SwordAttackState : PlayerState
 {
     public new Player player;
 
-    private readonly string swdAttack_1 = "Stable Sword Outward Slash";
-    private readonly string swdAttack_2 = "Stable Sword Inward Slash";
-    private readonly string swdAttack_3 = "Sword Fight One";
+    private readonly string swdAttack_1 = "Outward Slash";
+    private readonly string swdAttack_2 = "Inward Slash";
+    private readonly string swdAttack_3 = "Execute With Sword";
 
     private int currentAttackIndex = 0;
 

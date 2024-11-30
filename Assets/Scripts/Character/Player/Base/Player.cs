@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine;
     public MovementState movementState;
     public SwordAttackState swordAttackState;
+    public RollState rollState;
 
     [HideInInspector] public static Player player;
 
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
         stateMachine = new PlayerStateMachine();
         movementState = new MovementState(this, stateMachine);
         swordAttackState = new SwordAttackState(this, stateMachine);
+        rollState = new RollState(this, stateMachine);
     }
 
     private void Start()
@@ -47,25 +49,5 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.playerState.FrameUpdate();
-
-        RotateByCursor();
-    }
-
-    void RotateByCursor()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
-
-        if (groundPlane.Raycast(ray, out rayDistance))
-        {
-            Vector3 targetPoint = ray.GetPoint(rayDistance);
-
-            Vector3 direction = targetPoint - player.transform.position;
-            direction.y = 0;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
     }
 }

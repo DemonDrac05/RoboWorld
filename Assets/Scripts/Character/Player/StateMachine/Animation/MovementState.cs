@@ -9,6 +9,9 @@ public class MovementState : PlayerState
     private readonly float movementSpeed;
     private readonly float rotationSpeed;
 
+    private const string Idle = "Idle";
+    private const string RunWithSword = "Run With Sword";
+
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
         this.player = player;
@@ -19,13 +22,13 @@ public class MovementState : PlayerState
 
     public override void EnterState()
     {
-        player.animator.Play("Idle");
+        player.animator.Play(Idle);
     }
 
     public override void FrameUpdate()
     {
         MoveByCursor();
-
+        RotateByCursor();
         StateTransition();
     }
 
@@ -54,7 +57,25 @@ public class MovementState : PlayerState
         else
         {
             targetPosition = player.transform.position;
-            player.animator.Play("Idle");
+            player.animator.Play(Idle);
+        }
+    }
+
+    void RotateByCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        float rayDistance;
+
+        if (groundPlane.Raycast(ray, out rayDistance))
+        {
+            Vector3 targetPoint = ray.GetPoint(rayDistance);
+
+            Vector3 direction = targetPoint - player.transform.position;
+            direction.y = 0;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
@@ -65,12 +86,12 @@ public class MovementState : PlayerState
         if (distance > 0.1f)
         {
             player.transform.position += player.direction * movementSpeed * Time.deltaTime;
-            player.animator.Play("Run With Sword");
+            player.animator.Play(RunWithSword);
         }
         else
         {
             player.isMoving = false;
-            player.animator.Play("Idle");
+            player.animator.Play(Idle);
         }
     }
 
@@ -87,5 +108,10 @@ public class MovementState : PlayerState
         {
 
         }
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    player.stateMachine.ChangeState(player.rollState);
+        //}
     }
 }
