@@ -8129,8 +8129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260a8650b42dd774299ce87b07a1d26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStatSO: {fileID: 11400000, guid: f81cf4567faa1144ca4a8e2ac9717cc9, type: 2}
-  playerStatSO: {fileID: 11400000, guid: f81cf4567faa1144ca4a8e2ac9717cc9, type: 2}
+  baseStatSO: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
+  playerStatSO: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
 --- !u!4 &9056691294905353262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
