@@ -12,9 +12,7 @@ public class CombatManager : MonoBehaviour
 
         if (attacker is PlayerStat stat)
         {
-            var piercingDamage = stat.PiercingPercentage * stat.RangeWeaponDamage;
-            defender.TakeHealthDamage(piercingDamage);
-            totalRangedDamage -= piercingDamage;
+            totalRangedDamage = attacker.RangeWeaponDamage - (1 - stat.PiercingPercentage) * defender.Defense;
         }
 
         if (defender.Shield > 0f)
