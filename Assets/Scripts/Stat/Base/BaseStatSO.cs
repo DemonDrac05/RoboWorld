@@ -17,6 +17,12 @@ namespace Game.Stats
         [Header("=== Weapon Speed ==========")]
         public float rangeWeaponSpeed;
         public float meleeWeaponSpeed;
+
+        [Header("=== Unique Stat ==========")]
+        [Range(0f, 1f)] public float piercingPercentage;
+
+        [Range(0f, 1f)] public float criticalChance;
+        [Range(0f, 10f)] public float criticalDamage;
     }
 }
 

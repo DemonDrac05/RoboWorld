@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Wall
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - UI
   - Non-clickable
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 

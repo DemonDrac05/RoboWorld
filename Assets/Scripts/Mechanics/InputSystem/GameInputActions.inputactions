@@ -1,0 +1,54 @@
+{
+    "name": "GameInputActions",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "049e004c-2e76-442d-a9d3-7b1a77e52b99",
+            "actions": [
+                {
+                    "name": "SwordAttack",
+                    "type": "Button",
+                    "id": "b2ab7041-76a5-462f-8d45-ffe3657adcde",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "5449f89f-c216-40c4-bffc-b208511e406c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b22b7efc-22c1-4bfb-811b-2708ea2d0b48",
+                    "path": "<Keyboard>/#(X)",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwordAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c488f8d1-822f-4dd7-b2db-cca573bd324d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

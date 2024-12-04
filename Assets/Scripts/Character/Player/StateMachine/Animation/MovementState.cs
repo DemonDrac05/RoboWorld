@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MovementState : PlayerState
 {
-    public new Player player;
-
+    private GameInputActions controls;
     private Vector3 targetPosition;
 
     private readonly float movementSpeed;
@@ -11,30 +11,45 @@ public class MovementState : PlayerState
 
     private const string Idle = "Idle";
     private const string RunWithSword = "Run With Sword";
+    private const string RollForward = "Sprinting Forward Roll";
+
+    private const string Running = "isRunning";
+    private const string Rolling = "isRolling";
+    private const string Attacking = "isAttacking";
 
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
-        this.player = player;
-
         this.movementSpeed = player.movementSpeed;
         this.rotationSpeed = player.rotationSpeed;
     }
 
     public override void EnterState()
     {
-        player.animator.Play(Idle);
+        controls = new GameInputActions();
+
+        controls.Gameplay.Enable();
+
+        controls.Gameplay.SwordAttack.performed += OnSwordAttack;
+        controls.Gameplay.Roll.performed += OnRoll;
+    }
+
+    public override void ExitState()
+    {
+        controls.Gameplay.SwordAttack.performed -= OnSwordAttack;
+        controls.Gameplay.Roll.performed -= OnRoll;
+
+        controls.Gameplay.Disable();
     }
 
     public override void FrameUpdate()
     {
         MoveByCursor();
         RotateByCursor();
-        StateTransition();
     }
 
-    void MoveByCursor()
+    private void MoveByCursor()
     {
-        if (Input.GetMouseButton(0))
+        if (Mouse.current.leftButton.isPressed)
         {
             Ray ray = CameraMovement.m_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -44,12 +59,8 @@ public class MovementState : PlayerState
                 targetPosition = hit.point;
                 player.isMoving = true;
             }
-            //else if (Physics.Raycast(ray, out hit, Mathf.Infinity, player.nonClickableLayer))
-            //{
-            //    targetPosition = player.transform.position;
-            //    player.isMoving = false;
-            //}
         }
+
         if (player.isMoving)
         {
             MovePlayer();
@@ -57,11 +68,28 @@ public class MovementState : PlayerState
         else
         {
             targetPosition = player.transform.position;
-            player.animator.Play(Idle);
+
+            player.animator.SetBool(Running, false);
         }
     }
 
-    void RotateByCursor()
+    private void MovePlayer()
+    {
+        player.direction = (targetPosition - player.transform.position).normalized;
+        float distance = Vector3.Distance(player.transform.position, targetPosition);
+        if (distance > 0.1f)
+        {
+            player.transform.position += player.direction * movementSpeed * Time.deltaTime;
+            player.animator.SetBool(Running, true);
+        }
+        else
+        {
+            player.isMoving = false;
+            player.animator.SetBool(Running, false);
+        }
+    }
+
+    private void RotateByCursor()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -79,39 +107,22 @@ public class MovementState : PlayerState
         }
     }
 
-    void MovePlayer()
+    private void OnSwordAttack(InputAction.CallbackContext context)
     {
-        player.direction = (targetPosition - player.transform.position).normalized;
-        float distance = Vector3.Distance(player.transform.position, targetPosition);
-        if (distance > 0.1f)
-        {
-            player.transform.position += player.direction * movementSpeed * Time.deltaTime;
-            player.animator.Play(RunWithSword);
-        }
-        else
-        {
-            player.isMoving = false;
-            player.animator.Play(Idle);
-        }
+        player.animator.SetBool(Attacking, true);
+        player.stateMachine.ChangeState(player.swordAttackState);
     }
 
-    void StateTransition()
+    private void OnRoll(InputAction.CallbackContext context)
     {
-        // -- Sword Attack State ----------
-        if (Input.GetMouseButton(1))
+        if (PlayerStat.playerStat.Stamina >= 50f
+                && !player.animator.GetBool(Rolling)
+                && !player.animator.GetCurrentAnimatorStateInfo(0).IsName(RollForward))
         {
-            player.stateMachine.ChangeState(player.swordAttackState);
+            PlayerStat.playerStat.SetStamina(PlayerStat.playerStat.Stamina - 50f);
+
+            player.animator.SetBool(Rolling, true);
+            player.stateMachine.ChangeState(player.rollState);
         }
-
-        // -- Gun Shoot State ----------
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-
-        }
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    player.stateMachine.ChangeState(player.rollState);
-        //}
     }
 }

@@ -54,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
         UpdateStatUI(shieldSlider, null, currentShield);
         UpdateStatUI(staminaSlider, staminaText, currentStamina);
 
-        ShieldRecovery();
+        if (currentHealth == playerStat.playerStatSO.maxHealth) ShieldRecovery();
         StaminaRecovery();
     }
 

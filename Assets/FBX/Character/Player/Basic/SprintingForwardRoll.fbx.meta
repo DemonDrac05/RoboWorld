@@ -34,8 +34,8 @@ ModelImporter:
       name: Sprinting Forward Roll
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 8
-      lastFrame: 70
+      firstFrame: 10
+      lastFrame: 55
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -15,9 +15,7 @@ public class PlayerStatSO : BaseStatSO
     public float missileLaunchingTime;
     public float missileLaunchingCooldown;
 
-    [Header("=== Unique Stats ==========")]
-    [Range(0f, 1f)] public float piercingPercentage;
-
+    [Header("=== Unique Stats Addition ==========")]
     [Range(0f, 1f)] public float shieldRecPercentage;
     [Range(0f, 1f)] public float shieldRecDuration;
 

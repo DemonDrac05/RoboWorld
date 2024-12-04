@@ -13,7 +13,6 @@ public class PlayerStat : BaseStatManager
     public float MissileAOEDamage { get; private set; }
     public float MissileLaunchingTime { get; private set; }
     public float MissileLaunchingCooldown { get; private set; }
-    public float PiercingPercentage { get; private set; }
     public float ShieldRecPercentage { get; private set; }
     public float ShieldRecDuration { get; private set; }
     public float StaminaRecPercentage { get; private set; }
@@ -37,14 +36,13 @@ public class PlayerStat : BaseStatManager
         MissileLaunchingTime = playerStatSO.missileLaunchingTime;
         MissileLaunchingCooldown = playerStatSO.missileLaunchingCooldown;
 
-        PiercingPercentage = playerStatSO.piercingPercentage;
-
         ShieldRecPercentage = playerStatSO.shieldRecPercentage;
         ShieldRecDuration = playerStatSO.shieldRecDuration;
         StaminaRecPercentage = playerStatSO.staminaRecPercentage;
         StaminaRecDuration = playerStatSO.staminaRecDuration;
     }
 
+    public void SetStamina(float val) => Stamina = Mathf.Clamp(val, 0, playerStatSO.maxStamina);
     public void RecoveryShield(float amount) => SetShield(Shield + amount);
     public void RecoveryStamina(float amount) => Stamina = Mathf.Min(Stamina + amount, playerStatSO.maxStamina);
 }

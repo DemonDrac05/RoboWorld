@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5808736963737174693}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 4874126678125670354, guid: 84a29d29a663daa4e968ec40d27e09ad, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,5 +125,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flightDuration: 2
   controlPoint: {x: 25, y: 15, z: 25}
-  explosionEffect: {fileID: 1317152850151739053, guid: 941684c772b3ffb4fb9064c22cadbc1a, type: 3}
   movingTarget: {fileID: 0}

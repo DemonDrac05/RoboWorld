@@ -19,12 +19,14 @@ MonoBehaviour:
   meleeWeaponDamage: 150
   rangeWeaponSpeed: 0
   meleeWeaponSpeed: 0
+  piercingPercentage: 0.05
+  criticalChance: 0.1
+  criticalDamage: 1.5
   maxStamina: 250
   missileDamage: 15
   missileAOEDamage: 25
   missileLaunchingTime: 0.25
   missileLaunchingCooldown: 5
-  piercingPercentage: 0.05
   shieldRecPercentage: 0.05
   shieldRecDuration: 1
   staminaRecPercentage: 0.1

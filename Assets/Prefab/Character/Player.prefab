@@ -5758,6 +5758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8917093069627287186}
   - component: {fileID: 3962039853600501754}
+  - component: {fileID: 4722949453624487623}
   m_Layer: 0
   m_Name: SwordAttackRange
   m_TagString: Untagged
@@ -5795,12 +5796,25 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 11.264946
   m_Center: {x: 1.1025487, y: 1.8237343, z: 7.838665}
+--- !u!114 &4722949453624487623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6386182662916343081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175a35c70ebea1143b4dfd4a45715b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
 --- !u!1 &6623828318515030795
 GameObject:
   m_ObjectHideFlags: 0
@@ -7987,6 +8001,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6205833047209149656}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1693798892680906011}
   m_SourcePrefab: {fileID: 100100000, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}
 --- !u!4 &7174446449304951821 stripped
 Transform:
@@ -8091,6 +8108,7 @@ MonoBehaviour:
   movementSpeed: 10
   rotationSpeed: 10
   isMoving: 0
+  isVunerable: 1
   direction: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   animator: {fileID: 0}
@@ -8131,6 +8149,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStatSO: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
   playerStatSO: {fileID: 11400000, guid: cbb9a45cb1c0a054192424dbcd9b5c70, type: 2}
+--- !u!114 &1693798892680906011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8566976871009656468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9512fe5940c53494f9626ac53af647b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9056691294905353262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c3531ef9776d256449ac9e820a481dbd, type: 3}

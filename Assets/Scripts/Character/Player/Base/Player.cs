@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float rotationSpeed;
 
     [HideInInspector] public bool isMoving = false;
+    [HideInInspector] public bool isVunerable = true;
     [HideInInspector] public Vector3 direction;
 
     [HideInInspector] public Rigidbody rb;
@@ -45,9 +46,25 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.playerState.PhysicsUpdate();
+
+        SetLayerMaskOnDodging();
+
     }
     private void Update()
     {
         stateMachine.playerState.FrameUpdate();
     }
+
+    public void SetAnimatorBoolOnAnimationEnd(PlayerState nextState, string animationStateName, string boolParameter, bool targetState)
+    {
+        AnimatorStateInfo currentState = player.animator.GetCurrentAnimatorStateInfo(0);
+        if (currentState.IsName(animationStateName) && currentState.normalizedTime >= 1.0f)
+        {
+            player.animator.SetBool(boolParameter, targetState);
+            if (nextState != null) stateMachine.ChangeState(nextState);
+        }
+    }
+
+    void SetLayerMaskOnDodging() 
+        => player.gameObject.layer = LayerMask.NameToLayer(isVunerable ? "Player" : "Ignore Raycast");
 }

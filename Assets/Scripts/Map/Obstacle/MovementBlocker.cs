@@ -6,8 +6,25 @@ public class MovementBlocker : MonoBehaviour
     {
         if (collision.collider == Player.player.playerCollider)
         {
-            Player.player.direction = Vector3.zero;
-            Player.player.isMoving = false;
+            Player.player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            Player.player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider == Player.player.playerCollider)
+        {
+            Player.player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            Player.player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider == Player.player.playerCollider)
+        {
+            Debug.Log("OnWall");
         }
     }
 }

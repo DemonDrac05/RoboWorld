@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 300
   maxShield: 500
-  maxDefense: 10
+  maxDefense: 25
   rangeWeaponDamage: 75
   meleeWeaponDamage: 0
   rangeWeaponSpeed: 0
   meleeWeaponSpeed: 0
+  piercingPercentage: 0
+  criticalChance: 0.01
+  criticalDamage: 1.25
