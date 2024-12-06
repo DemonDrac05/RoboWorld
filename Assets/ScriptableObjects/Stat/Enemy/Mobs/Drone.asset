@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHealth: 300
   maxShield: 500
   maxDefense: 25
-  rangeWeaponDamage: 500
+  rangeWeaponDamage: 75
   meleeWeaponDamage: 0
   rangeWeaponSpeed: 0
   meleeWeaponSpeed: 0

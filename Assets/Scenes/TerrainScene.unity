@@ -137,6 +137,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 1341777792676852330, guid: 39b3ba22fda6c734b91e577b164b0ef4, type: 3}
+--- !u!1 &194474507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8566976871009656468, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
+  m_PrefabInstance: {fileID: 7607157676796317368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &282318049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283,7 +288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: moveWithTransform
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: ColorModule.enabled
@@ -307,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: CollisionModule.m_Bounce.scalar
@@ -323,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1510384272098710276, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.size
@@ -879,6 +884,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9056691294905353262, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
   m_PrefabInstance: {fileID: 7607157676796317368}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &836202729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194474507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405bf1d98bf26bb42bc2442cde685be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1360858447405362925, guid: 3a09e618e77f16443afcf3d89a089521, type: 3}
 --- !u!1 &899273261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,7 +1860,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8566976871009656468, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 836202729}
   m_SourcePrefab: {fileID: 100100000, guid: 68152e39ca1f9fb42b6a3b5f3f7dcd82, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
