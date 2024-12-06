@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public MovementState movementState;
     public SwordAttackState swordAttackState;
     public RollState rollState;
+    public HealthState healthState;
 
     [HideInInspector] public static Player player;
 
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         movementState = new MovementState(this, stateMachine);
         swordAttackState = new SwordAttackState(this, stateMachine);
         rollState = new RollState(this, stateMachine);
+        healthState = new HealthState(this, stateMachine);
     }
 
     private void Start()
@@ -48,7 +50,6 @@ public class Player : MonoBehaviour
         stateMachine.playerState.PhysicsUpdate();
 
         SetLayerMaskOnDodging();
-
     }
     private void Update()
     {

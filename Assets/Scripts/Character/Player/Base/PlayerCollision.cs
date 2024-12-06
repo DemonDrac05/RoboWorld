@@ -4,8 +4,8 @@ public class PlayerCollision : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
     private bool isTouchingWall = false;
-    private float additionalGravity = 20f; // Extra downward force
-    private float maxSlideSpeed = -10f;   // Maximum slide speed
+    private float additionalGravity = 20f;
+    private float maxSlideSpeed = -10f;
 
     private void Start()
     {

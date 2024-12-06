@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class MovementState : PlayerState
 {
@@ -9,18 +11,24 @@ public class MovementState : PlayerState
     private readonly float movementSpeed;
     private readonly float rotationSpeed;
 
-    private const string Idle = "Idle";
-    private const string RunWithSword = "Run With Sword";
+    // --- ANIMATIONS TRANSITIONS ----------
     private const string RollForward = "Sprinting Forward Roll";
 
+    // --- PARAMETERS TRANSITIONS ----------
     private const string Running = "isRunning";
     private const string Rolling = "isRolling";
     private const string Attacking = "isAttacking";
+
+    private ParticleSystem bullet; //*** ADD BULLET PREFAB LATER... ***
+    private PlayerWeapon weapon;
 
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
         this.movementSpeed = player.movementSpeed;
         this.rotationSpeed = player.rotationSpeed;
+
+        this.bullet = player.GetComponentInChildren<ParticleSystem>();
+        this.weapon = player.GetComponent<PlayerWeapon>();
     }
 
     public override void EnterState()
@@ -31,12 +39,19 @@ public class MovementState : PlayerState
 
         controls.Gameplay.SwordAttack.performed += OnSwordAttack;
         controls.Gameplay.Roll.performed += OnRoll;
+
+        controls.Gameplay.BulletFire.started += OnFire;
+        controls.Gameplay.BulletFire.canceled += OffFire;
     }
 
     public override void ExitState()
     {
         controls.Gameplay.SwordAttack.performed -= OnSwordAttack;
         controls.Gameplay.Roll.performed -= OnRoll;
+
+        controls.Gameplay.BulletFire.started -= OnFire;
+        controls.Gameplay.BulletFire.canceled -= OffFire;
+        if (bullet.isPlaying) bullet.Stop();
 
         controls.Gameplay.Disable();
     }
@@ -124,5 +139,15 @@ public class MovementState : PlayerState
             player.animator.SetBool(Rolling, true);
             player.stateMachine.ChangeState(player.rollState);
         }
+    }
+
+    private void OnFire(InputAction.CallbackContext context)
+    {
+        if (!bullet.isPlaying) bullet.Play();
+    }
+
+    private void OffFire(InputAction.CallbackContext context)
+    {
+        if (bullet.isPlaying) bullet.Stop();
     }
 }

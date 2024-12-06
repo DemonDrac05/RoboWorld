@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
@@ -26,7 +24,6 @@ public class CombatManager : MonoBehaviour
             AttackType.Missile => CalculateMissileDamage(attacker),
             _ => 0f,
         };
-
 
         float totalDamage = CalculateCriticalDamage(attacker, typeOfAttackDamage);
         totalDamage = type != AttackType.Missile 

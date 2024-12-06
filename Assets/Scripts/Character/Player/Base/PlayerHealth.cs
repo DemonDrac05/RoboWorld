@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void UpdateStatUI(Slider slider, TMPro.TextMeshProUGUI text, float currentValue)
     {
-        slider.value = currentValue;
+        slider.value = ((int)currentValue);
         if (text != null) text.text = $"{currentValue}";
     }
 

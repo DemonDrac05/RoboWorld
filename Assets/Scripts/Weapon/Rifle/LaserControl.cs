@@ -1,33 +1,30 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LaserControl : MonoBehaviour
 {
-    private ParticleSystem laserBeam;
+    //public List<GameObject> list = new();
 
-    private void Start()
-    {
-        laserBeam = GetComponentInChildren<ParticleSystem>();
-    }
-
-    private void Update()
-    {
-        var player = Player.player;
-        if (player.stateMachine.playerState != player.swordAttackState)
-        {
-            if (Input.GetKey(KeyCode.Z) && !laserBeam.isPlaying)
-            {
-                laserBeam.Play();
-            }
-            if (Input.GetKeyUp(KeyCode.Z) && laserBeam.isPlaying)
-            {
-                laserBeam.Stop();
-            }
-        }
-        else
-        {
-            laserBeam.Stop();
-        }
-
-        //laserBeam.transform.position = new Vector3(player.transform.position.x, 1.3f, player.transform.position.z);
-    }
+    //private void Update()
+    //{
+    //    var player = Player.player;
+    //    if (player.stateMachine.playerState != player.swordAttackState)
+    //    {
+    //        if (Input.GetKey(KeyCode.Z))
+    //        {
+    //            GameObject bullet = Instantiate(player.GetComponent<PlayerWeapon>().bulletPrefab, this.transform);
+    //            list.Add(bullet);
+    //        }
+    //        if (Input.GetKeyUp(KeyCode.Z))
+    //        {
+    //            foreach (var bullet in list)
+    //            {
+    //                Destroy(bullet.gameObject);
+    //            }
+    //            list.Clear();
+    //        }
+    //    }
+    //}
 }

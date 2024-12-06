@@ -228,19 +228,25 @@ AnimatorStateMachine:
     m_Position: {x: 560, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6915140795222263502}
-    m_Position: {x: -200, y: -10, z: 0}
+    m_Position: {x: -200, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6514764052403224002}
     m_Position: {x: 560, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6756567987338814377}
-    m_Position: {x: -40, y: -200, z: 0}
+    m_Position: {x: -200, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2482489276438009110}
     m_Position: {x: 560, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9148589798972062295}
-    m_Position: {x: -40, y: -150, z: 0}
+    m_Position: {x: -200, y: -200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1800617985714837649}
+    m_Position: {x: -200, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7641089113595843927}
+    m_Position: {x: -200, y: 50, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -279,6 +285,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-1800617985714837649
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Knocked Out Backward
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: 65e7d052f72b4964da4e5410b63f83f2, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -302,6 +334,12 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: isAttacking
     m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: getDamage
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -532,6 +570,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 8820e7c8173d33649b0fb3ad3ae70528, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7641089113595843927
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Knocked Out Forward
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: 76f895dc302603143a2ee804f0588a3c, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

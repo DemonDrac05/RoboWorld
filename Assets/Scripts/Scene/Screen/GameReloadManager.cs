@@ -5,11 +5,13 @@ public class GameReloadManager : MonoBehaviour
     [Header("=== GUI Assets ==========")]
     [SerializeField] private GameObject reloadSceneCanvas;
 
-    private void Update()
+    public static GameReloadManager instance;
+
+    private void Awake() => instance = this;
+
+    public void ReloadScene()
     {
-        if (PlayerStat.playerStat.Health <= 0f)
-        {
-            reloadSceneCanvas.SetActive(true);
-        }
+        GamePauseManager.instance.PauseGame();
+        reloadSceneCanvas.SetActive(true);
     }
 }
