@@ -1,30 +1,20 @@
-using NUnit.Framework;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class LaserControl : MonoBehaviour
 {
-    //public List<GameObject> list = new();
+    public Transform shootingPoint;
+    public GameObject bulletPrefab;
+    public float bulletSpeed;
 
-    //private void Update()
-    //{
-    //    var player = Player.player;
-    //    if (player.stateMachine.playerState != player.swordAttackState)
-    //    {
-    //        if (Input.GetKey(KeyCode.Z))
-    //        {
-    //            GameObject bullet = Instantiate(player.GetComponent<PlayerWeapon>().bulletPrefab, this.transform);
-    //            list.Add(bullet);
-    //        }
-    //        if (Input.GetKeyUp(KeyCode.Z))
-    //        {
-    //            foreach (var bullet in list)
-    //            {
-    //                Destroy(bullet.gameObject);
-    //            }
-    //            list.Clear();
-    //        }
-    //    }
-    //}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            var bullet = Instantiate(bulletPrefab, shootingPoint.transform.position, shootingPoint.rotation);
+
+            bullet.GetComponent<Bullet>().Initialize(shootingPoint.gameObject);
+            bullet.GetComponent<Rigidbody>().linearVelocity = shootingPoint.forward * bulletSpeed;
+        }
+    }
 }

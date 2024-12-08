@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -19,15 +20,15 @@ public class MovementState : PlayerState
     private const string Rolling = "isRolling";
     private const string Attacking = "isAttacking";
 
-    private ParticleSystem bullet; //*** ADD BULLET PREFAB LATER... ***
+    // --- SHOOTING VARAIABLES ----------
     private PlayerWeapon weapon;
+    private Coroutine fireCoroutine;
 
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
         this.movementSpeed = player.movementSpeed;
         this.rotationSpeed = player.rotationSpeed;
 
-        this.bullet = player.GetComponentInChildren<ParticleSystem>();
         this.weapon = player.GetComponent<PlayerWeapon>();
     }
 
@@ -41,7 +42,7 @@ public class MovementState : PlayerState
         controls.Gameplay.Roll.performed += OnRoll;
 
         controls.Gameplay.BulletFire.started += OnFire;
-        controls.Gameplay.BulletFire.canceled += OffFire;
+        controls.Gameplay.BulletFire.canceled += OnFire;
     }
 
     public override void ExitState()
@@ -49,9 +50,8 @@ public class MovementState : PlayerState
         controls.Gameplay.SwordAttack.performed -= OnSwordAttack;
         controls.Gameplay.Roll.performed -= OnRoll;
 
-        controls.Gameplay.BulletFire.started -= OnFire;
-        controls.Gameplay.BulletFire.canceled -= OffFire;
-        if (bullet.isPlaying) bullet.Stop();
+        controls.Gameplay.BulletFire.performed -= OnFire;
+        controls.Gameplay.BulletFire.canceled -= OnFire;
 
         controls.Gameplay.Disable();
     }
@@ -143,11 +143,26 @@ public class MovementState : PlayerState
 
     private void OnFire(InputAction.CallbackContext context)
     {
-        if (!bullet.isPlaying) bullet.Play();
+        if (context.started)
+        {
+            fireCoroutine = player.StartCoroutine(FireContinuously());
+        }
+        else if (context.canceled)
+        {
+            if (fireCoroutine != null)
+            {
+                player.StopCoroutine(fireCoroutine);
+                fireCoroutine = null;
+            }
+        }
     }
 
-    private void OffFire(InputAction.CallbackContext context)
+    private IEnumerator FireContinuously()
     {
-        if (bullet.isPlaying) bullet.Stop();
+        while (true)
+        {
+            WeaponManager.instance.FireBullet(weapon.bulletPrefab, weapon.firePoint, weapon.bulletSpeed);
+            yield return new WaitForSeconds(0.15F);
+        }
     }
 }
