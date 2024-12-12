@@ -2,17 +2,30 @@ using UnityEngine;
 
 public class DemoTesting : MonoBehaviour
 {
-    private Camera mainCamera;
+    private CharacterController characterController;
+    public bool isGrounded = false;
+    public float groundCheckDistance;
+    private float bufferCheckDistance = 0.1f;
 
-    void Start()
+    private void Start()
     {
-        mainCamera = Camera.main;
+        characterController = GetComponent<CharacterController>();
     }
 
-    void LateUpdate()
+    private void Update()
     {
-        // Make the Canvas face the camera
-        transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.transform.position);
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, 0f);
+
+        //groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2) + bufferCheckDistance;
+        //RaycastHit hit;
+        //if (Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
+        //{
+        //    isGrounded = true;
+        //}
+        //else
+        //{
+        //    isGrounded = false;
+        //}
+        //Debug.Log(isGrounded);
+        Debug.Log(characterController.isGrounded);
     }
 }

@@ -12,6 +12,14 @@ public class PlayerCollision : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+        }
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
