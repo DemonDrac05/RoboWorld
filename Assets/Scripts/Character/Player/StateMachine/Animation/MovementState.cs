@@ -67,12 +67,14 @@ public class MovementState : PlayerState
         if (Mouse.current.leftButton.isPressed)
         {
             Ray ray = CameraMovement.m_Camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, player.clickableLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, player.clickableLayer))
             {
-                targetPosition = hit.point;
-                player.isMoving = true;
+                // Only update targetPosition if it's a new point to avoid unnecessary updates
+                if (Vector3.Distance(targetPosition, hit.point) > 0.1f)
+                {
+                    targetPosition = hit.point;
+                    player.isMoving = true;
+                }
             }
         }
 
@@ -82,27 +84,45 @@ public class MovementState : PlayerState
         }
         else
         {
-            targetPosition = player.transform.position;
-
-            player.animator.SetBool(Running, false);
+            // Ensure the animation is updated only when necessary
+            if (player.animator.GetBool(Running))
+            {
+                player.animator.SetBool(Running, false);
+            }
         }
     }
 
     private void MovePlayer()
     {
-        player.direction = (targetPosition - player.transform.position).normalized;
+        Vector3 targetDirection = (targetPosition - player.transform.position).normalized;
+
+        // Smooth movement with damping
+        player.direction = Vector3.Lerp(player.direction, targetDirection, Time.deltaTime * rotationSpeed);
+
         float distance = Vector3.Distance(player.transform.position, targetPosition);
         if (distance > 0.1f)
         {
             player.transform.position += player.direction * movementSpeed * Time.deltaTime;
-            player.animator.SetBool(Running, true);
+
+            // Smooth transition to enable animation state
+            if (!player.animator.GetBool(Running))
+            {
+                player.animator.SetBool(Running, true);
+            }
         }
         else
         {
+            // Stop moving when close enough
             player.isMoving = false;
-            player.animator.SetBool(Running, false);
+
+            // Smoothly update animation state
+            if (player.animator.GetBool(Running))
+            {
+                player.animator.SetBool(Running, false);
+            }
         }
     }
+
 
     private void RotateByCursor()
     {
