@@ -21,4 +21,7 @@ public class PlayerStatSO : BaseStatSO
 
     [Range(0f, 1f)] public float staminaRecPercentage;
     [Range(0f, 1f)] public float staminaRecDuration;
+
+    [Header("=== Player Properties ==========")]
+    public Transform checkPoint;
 }
