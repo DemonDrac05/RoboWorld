@@ -2,25 +2,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("=== Player Properties ===========")]
-    public LayerMask clickableLayer;
-    public LayerMask nonClickableLayer;
-
-    public float movementSpeed;
-    public float rotationSpeed;
-
-    [HideInInspector] public bool isMoving = false;
-    //public bool isGrounded = false;
-    public float groundCheckDistance;
-    private float bufferCheckDistance = 0.1f;
-    [HideInInspector] public bool isVunerable = true;
-    [HideInInspector] public Vector3 direction;
+    public bool isVulnerable;
 
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Animator animator;
     [HideInInspector] public Collider playerCollider;
-
-    // --- UNITY BUILT-IN ----------
 
     // --- STATE MACHINE ----------
     public PlayerStateMachine stateMachine;
@@ -37,6 +23,10 @@ public class Player : MonoBehaviour
     {
         player = this;
 
+        rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        playerCollider = GetComponent<Collider>();
+
         stateMachine = new PlayerStateMachine();
         movementState = new MovementState(this, stateMachine);
         swordAttackState = new SwordAttackState(this, stateMachine);
@@ -47,10 +37,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-        playerCollider = GetComponent<Collider>();
-
         stateMachine.Initialize(fallState);
         PlayerStat.playerStat.GetCheckpoint(transform);
     }
@@ -58,28 +44,13 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.playerState.PhysicsUpdate();
-
         SetLayerMaskOnDodging();
     }
 
     private void Update()
     {
         stateMachine.playerState.FrameUpdate();
-
-        //groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2) + bufferCheckDistance;
-        //RaycastHit hit;
-        //if (Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
-        //{
-        //    isGrounded = true;
-        //}
-        //else
-        //{
-        //    isGrounded = false;
-        //}
-        //Debug.Log(isGrounded);
-
-        if (isGrounded())
-            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        SetBodyOnGround();
     }
 
     public void SetAnimatorBoolOnAnimationEnd(PlayerState nextState, string animationStateName, string boolParameter, bool targetState)
@@ -92,12 +63,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool isGrounded()
+
+    #region PHYSICS ===========
+    public bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 0.1f, clickableLayer);
+        return Physics.Raycast(transform.position, Vector3.down, 0.1f, this.GetComponent<PlayerMovement>().clickableLayer);
     }
 
+    void SetLayerMaskOnDodging()
+        => gameObject.layer = LayerMask.NameToLayer(isVulnerable ? "Player" : "Ignore Raycast");
 
-    void SetLayerMaskOnDodging() 
-        => player.gameObject.layer = LayerMask.NameToLayer(isVunerable ? "Player" : "Ignore Raycast");
+    void SetBodyOnGround()
+    {
+        if (IsGrounded())
+            player.rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+    }
+    #endregion
 }

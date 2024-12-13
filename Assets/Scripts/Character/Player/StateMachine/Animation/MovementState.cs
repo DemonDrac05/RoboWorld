@@ -6,17 +6,14 @@ using UnityEngine.InputSystem.Interactions;
 
 public class MovementState : PlayerState
 {
+    private PlayerMovement playerMovement;
     private GameInputActions controls;
-    private Vector3 targetPosition;
-
-    private readonly float movementSpeed;
-    private readonly float rotationSpeed;
 
     // --- ANIMATIONS TRANSITIONS ----------
     private const string RollForward = "Sprinting Forward Roll";
 
     // --- PARAMETERS TRANSITIONS ----------
-    private const string Running = "isRunning";
+    private const string Running = "Run With Sword";
     private const string Rolling = "isRolling";
     private const string Attacking = "isAttacking";
 
@@ -26,9 +23,7 @@ public class MovementState : PlayerState
 
     public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
-        this.movementSpeed = player.movementSpeed;
-        this.rotationSpeed = player.rotationSpeed;
-
+        this.playerMovement = player.GetComponent<PlayerMovement>();
         this.weapon = player.GetComponent<PlayerWeapon>();
     }
 
@@ -58,96 +53,30 @@ public class MovementState : PlayerState
 
     public override void FrameUpdate()
     {
-        MoveByCursor();
-        RotateByCursor();
-    }
-
-    private void MoveByCursor()
-    {
-        if (Mouse.current.leftButton.isPressed)
+        if (player.animator.GetCurrentAnimatorStateInfo(0).IsName(Running)
+            || player.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
-            Ray ray = CameraMovement.m_Camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, player.clickableLayer))
-            {
-                // Only update targetPosition if it's a new point to avoid unnecessary updates
-                if (Vector3.Distance(targetPosition, hit.point) > 0.1f)
-                {
-                    targetPosition = hit.point;
-                    player.isMoving = true;
-                }
-            }
-        }
-
-        if (player.isMoving)
-        {
-            MovePlayer();
-        }
-        else
-        {
-            // Ensure the animation is updated only when necessary
-            if (player.animator.GetBool(Running))
-            {
-                player.animator.SetBool(Running, false);
-            }
-        }
-    }
-
-    private void MovePlayer()
-    {
-        Vector3 targetDirection = (targetPosition - player.transform.position).normalized;
-
-        // Smooth movement with damping
-        player.direction = Vector3.Lerp(player.direction, targetDirection, Time.deltaTime * rotationSpeed);
-
-        float distance = Vector3.Distance(player.transform.position, targetPosition);
-        if (distance > 0.1f)
-        {
-            player.transform.position += player.direction * movementSpeed * Time.deltaTime;
-
-            // Smooth transition to enable animation state
-            if (!player.animator.GetBool(Running))
-            {
-                player.animator.SetBool(Running, true);
-            }
-        }
-        else
-        {
-            // Stop moving when close enough
-            player.isMoving = false;
-
-            // Smoothly update animation state
-            if (player.animator.GetBool(Running))
-            {
-                player.animator.SetBool(Running, false);
-            }
+            playerMovement.MoveCharacter();
+            playerMovement.RotateCharacter();
         }
     }
 
 
-    private void RotateByCursor()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
-
-        if (groundPlane.Raycast(ray, out rayDistance))
-        {
-            Vector3 targetPoint = ray.GetPoint(rayDistance);
-
-            Vector3 direction = targetPoint - player.transform.position;
-            direction.y = 0;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-    }
-
+    #region ANIMATION TRANSITION ==========
+    /// <summary>
+    /// Perform attacking by sword
+    /// </summary>
+    /// <param name="context"></param>
     private void OnSwordAttack(InputAction.CallbackContext context)
     {
         player.animator.SetBool(Attacking, true);
         player.stateMachine.ChangeState(player.swordAttackState);
     }
 
+    /// <summary>
+    /// Perform rolling with stamina deduction
+    /// </summary>
+    /// <param name="context"></param>
     private void OnRoll(InputAction.CallbackContext context)
     {
         if (PlayerStat.playerStat.Stamina >= 50f
@@ -161,6 +90,10 @@ public class MovementState : PlayerState
         }
     }
 
+    /// <summary>
+    /// Perform shooting with continuous firing
+    /// </summary>
+    /// <param name="context"></param>
     private void OnFire(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -185,4 +118,5 @@ public class MovementState : PlayerState
             yield return new WaitForSeconds(0.15F);
         }
     }
+    #endregion
 }

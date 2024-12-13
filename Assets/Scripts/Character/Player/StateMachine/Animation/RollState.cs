@@ -9,9 +9,9 @@ public class RollState : PlayerState
     {
     }
 
-    public override void EnterState() => player.isVunerable = false;
+    public override void EnterState() => player.isVulnerable = false;
 
-    public override void ExitState() => player.isVunerable = true;
+    public override void ExitState() => player.isVulnerable = true;
 
     public override void FrameUpdate()
         => player.SetAnimatorBoolOnAnimationEnd(player.movementState, RollForward, Rolling, false);

@@ -20,19 +20,21 @@ public class DissolveController : MonoBehaviour
     {
         skinned_SurfaceMaterials = skinned_SurfaceMesh?.materials;
         skinned_JointMaterials = skinned_JointMesh?.materials;
+
+        StartCoroutine(HandleDissolve(false));
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(HandleDissolve(true));
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    StartCoroutine(HandleDissolve(true));
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(HandleDissolve(false));
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    StartCoroutine(HandleDissolve(false));
+        //}
     }
 
     public IEnumerator HandleDissolve(bool dissolve)
@@ -42,6 +44,8 @@ public class DissolveController : MonoBehaviour
             VFXGraph.SetBool("Reverse", !dissolve);
             VFXGraph.Play();
         }
+
+        Player.player.rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
         var targetMaterials = new[] { skinned_SurfaceMaterials, skinned_JointMaterials };
         float counter = dissolve ? 0 : 1;
@@ -65,5 +69,7 @@ public class DissolveController : MonoBehaviour
 
             yield return new WaitForSeconds(refreshRate);
         }
+
+        Player.player.rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 }

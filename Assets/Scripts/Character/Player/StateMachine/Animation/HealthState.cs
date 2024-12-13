@@ -13,8 +13,8 @@ public class HealthState : PlayerState
         => player.animator.Play(PlayerStat.playerStat.Health > 0f 
                                 ? Staggered : GetRandomRange(1, 2) == 1 ? BackwardKO : ForwardKO);
 
-    public override void ExitState() => player.isVunerable = true;
-    public override void PhysicsUpdate() => player.isVunerable = false;
+    public override void ExitState() => player.isVulnerable = true;
+    public override void PhysicsUpdate() => player.isVulnerable = false;
 
     public override void FrameUpdate()
     {
