@@ -12,6 +12,8 @@ public class DissolveController : MonoBehaviour
     public Material[] skinned_JointMaterials;
 
     public VisualEffect VFXGraph;
+    public GameObject splashEffect;
+    public GameObject circleEffect;
 
     private const float dissolveRate = 0.0125f;
     private const float refreshRate = 0.025f;
@@ -38,6 +40,26 @@ public class DissolveController : MonoBehaviour
     }
 
     public IEnumerator HandleDissolve(bool dissolve)
+    {
+        if (!dissolve)
+        {
+            GameObject circle = Instantiate(circleEffect);
+
+            yield return DissolveProcess(dissolve);
+
+            GameObject splash = Instantiate(splashEffect);
+
+            yield return new WaitUntil(() => splash.GetComponent<ParticleSystem>().isStopped);
+
+            Destroy(splash); Destroy(circle);
+        }
+        else
+        {
+            yield return DissolveProcess(dissolve);
+        }
+    }
+
+    IEnumerator DissolveProcess(bool dissolve)
     {
         if (VFXGraph != null)
         {
