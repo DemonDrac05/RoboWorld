@@ -14,18 +14,14 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public float rotationSpeed;
 
-    [HideInInspector] public bool isMoving = false;
-    [HideInInspector] public bool isVunerable = true;
-
+    // --- Position Variables ----------
     private Vector3 targetPosition;
     private Vector3 charDirection;
 
-    protected Player player;
+    // ---
+    private Player player;
 
-    private void Awake()
-    {
-        player = GetComponent<Player>();    
-    }
+    private void Awake() => player = GetComponent<Player>();
 
     public void MoveCharacter()
     {
@@ -37,18 +33,17 @@ public class PlayerMovement : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
             {
                 targetPosition = hit.point;
-                isMoving = true;
+                player.SetMobility(true);
             }
         }
 
-        if (isMoving)
+        if (player.IsMoving)
         {
             MoveProcess();
         }
         else
         {
             targetPosition = transform.position;
-            player.animator.SetBool("isRunning", false);
         }
     }
 
@@ -59,12 +54,10 @@ public class PlayerMovement : MonoBehaviour
         if (distance > 0.1f)
         {
             transform.position += charDirection * movementSpeed * Time.deltaTime;
-            player.animator.SetBool("isRunning", true);
         }
         else
         {
-            isMoving = false;
-            player.animator.SetBool("isRunning", false);
+            player.SetMobility(false);
         }
     }
 

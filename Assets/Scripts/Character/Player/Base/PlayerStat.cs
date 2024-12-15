@@ -19,7 +19,8 @@ public class PlayerStat : BaseStatManager
     public float StaminaRecPercentage { get; private set; }
     public float StaminaRecDuration { get; private set; }
     // --- PROPERTIES ----------
-    public Transform Checkpoint { get; private set; }
+    public Vector3 Checkpoint { get; private set; }
+    public float HeightOfCheckpoint { get; private set; }
 
     public override void OnEnable()
     {
@@ -45,12 +46,16 @@ public class PlayerStat : BaseStatManager
         StaminaRecDuration = playerStatSO.staminaRecDuration;
 
         Checkpoint = playerStatSO.checkPoint;
+        HeightOfCheckpoint = playerStatSO.heightOfCheckpoint;
     }
 
     public void SetStamina(float val) => Stamina = Mathf.Clamp(val, 0, playerStatSO.maxStamina);
     public void RecoveryShield(float amount) => SetShield(Shield + amount);
     public void RecoveryStamina(float amount) => Stamina = Mathf.Min(Stamina + amount, playerStatSO.maxStamina);
 
-    public void SetCheckpoint(Transform savedCheckpoint) => playerStatSO.checkPoint = Checkpoint = savedCheckpoint;
-    public void GetCheckpoint(Transform currentCheckpoint) => currentCheckpoint = Checkpoint;
+    public void SetCheckpoint(Vector3 savedCheckpoint)
+    {
+        Vector3 fixedCheckpoint = new Vector3(savedCheckpoint.x, savedCheckpoint.y + HeightOfCheckpoint, savedCheckpoint.z);
+        playerStatSO.checkPoint = Checkpoint = fixedCheckpoint;
+    }
 }

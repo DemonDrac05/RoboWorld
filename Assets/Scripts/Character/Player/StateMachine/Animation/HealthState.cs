@@ -10,23 +10,23 @@ public class HealthState : PlayerState
     {}
 
     public override void EnterState()
-        => player.animator.Play(PlayerStat.playerStat.Health > 0f 
+        => player.Animator.Play(PlayerStat.playerStat.Health > 0f 
                                 ? Staggered : GetRandomRange(1, 2) == 1 ? BackwardKO : ForwardKO);
 
-    public override void ExitState() => player.isVulnerable = true;
-    public override void PhysicsUpdate() => player.isVulnerable = false;
+    public override void ExitState() => player.SetVulnerability(true);
+    public override void PhysicsUpdate() => player.SetVulnerability(false);
 
     public override void FrameUpdate()
     {
-        if (player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if (player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
-            if (player.animator.GetCurrentAnimatorStateInfo(0).IsName(Staggered))
+            if (player.Animator.GetCurrentAnimatorStateInfo(0).IsName(Staggered))
             {
-                player.animator.Play("Idle");
+                player.Animator.Play("Idle");
                 player.stateMachine.ChangeState(player.movementState);
             }
-            else if (player.animator.GetCurrentAnimatorStateInfo(0).IsName(BackwardKO)
-                    || player.animator.GetCurrentAnimatorStateInfo(0).IsName(ForwardKO))
+            else if (player.Animator.GetCurrentAnimatorStateInfo(0).IsName(BackwardKO)
+                    || player.Animator.GetCurrentAnimatorStateInfo(0).IsName(ForwardKO))
             {
                 GameReloadManager.instance.ReloadScene();
             }

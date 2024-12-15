@@ -12,8 +12,12 @@ public class MovementState : PlayerState
     // --- ANIMATIONS TRANSITIONS ----------
     private const string RollForward = "Sprinting Forward Roll";
 
+    // --- ANIMATIONS STATES ----------
+    private const string RunState = "Run With Sword";
+    private const string IdleState = "Idle";
+
     // --- PARAMETERS TRANSITIONS ----------
-    private const string Running = "Run With Sword";
+    private const string Running = "isRunning";
     private const string Rolling = "isRolling";
     private const string Attacking = "isAttacking";
 
@@ -53,12 +57,13 @@ public class MovementState : PlayerState
 
     public override void FrameUpdate()
     {
-        if (player.animator.GetCurrentAnimatorStateInfo(0).IsName(Running)
-            || player.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (player.Animator.GetCurrentAnimatorStateInfo(0).IsName(IdleState)
+            || player.Animator.GetCurrentAnimatorStateInfo(0).IsName(RunState))
         {
             playerMovement.MoveCharacter();
             playerMovement.RotateCharacter();
         }
+        player.Animator.SetBool(Running, player.IsMoving);
     }
 
 
@@ -69,7 +74,7 @@ public class MovementState : PlayerState
     /// <param name="context"></param>
     private void OnSwordAttack(InputAction.CallbackContext context)
     {
-        player.animator.SetBool(Attacking, true);
+        player.Animator.SetBool(Attacking, true);
         player.stateMachine.ChangeState(player.swordAttackState);
     }
 
@@ -80,12 +85,12 @@ public class MovementState : PlayerState
     private void OnRoll(InputAction.CallbackContext context)
     {
         if (PlayerStat.playerStat.Stamina >= 50f
-                && !player.animator.GetBool(Rolling)
-                && !player.animator.GetCurrentAnimatorStateInfo(0).IsName(RollForward))
+                && !player.Animator.GetBool(Rolling)
+                && !player.Animator.GetCurrentAnimatorStateInfo(0).IsName(RollForward))
         {
             PlayerStat.playerStat.SetStamina(PlayerStat.playerStat.Stamina - 50f);
 
-            player.animator.SetBool(Rolling, true);
+            player.Animator.SetBool(Rolling, true);
             player.stateMachine.ChangeState(player.rollState);
         }
     }
