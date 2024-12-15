@@ -5,37 +5,18 @@ using UnityEngine.VFX;
 
 public class DissolveController : MonoBehaviour
 {
-    public SkinnedMeshRenderer skinned_SurfaceMesh;
-    public SkinnedMeshRenderer skinned_JointMesh;
-
+    // --- PLAYER MESHES MATERIALS ----------
     public Material[] skinned_SurfaceMaterials;
     public Material[] skinned_JointMaterials;
 
+    // --- DISSOLVE EFFECT ----------
     public VisualEffect VFXGraph;
 
+    // --- SHADER GRAPH PROPERTIES -----------
     private const float dissolveRate = 0.0125f;
     private const float refreshRate = 0.025f;
 
-    private void Start()
-    {
-        skinned_SurfaceMaterials = skinned_SurfaceMesh?.materials;
-        skinned_JointMaterials = skinned_JointMesh?.materials;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(HandleDissolve(true));
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(HandleDissolve(false));
-        }
-    }
-
-    public IEnumerator HandleDissolve(bool dissolve)
+    public IEnumerator DissolveProcess(bool dissolve)
     {
         if (VFXGraph != null)
         {
