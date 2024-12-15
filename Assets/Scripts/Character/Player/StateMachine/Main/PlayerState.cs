@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerState
 {
     protected Player player;
@@ -11,6 +7,12 @@ public class PlayerState
     {
         this.player = player;
         this.stateMachine = playerStateMachine;
+    }
+
+    public void Initialize(Player player, PlayerStateMachine stateMachine)
+    {
+        this.player = player;
+        this.stateMachine = stateMachine;
     }
 
     public virtual void EnterState() { }

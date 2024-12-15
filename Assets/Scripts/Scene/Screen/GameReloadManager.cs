@@ -19,33 +19,28 @@ public class GameReloadManager : MonoBehaviour
         reloadSceneCanvas.SetActive(true);
     }
 
-    private void Update()
-    {
-        agreeButton?.onClick.AddListener(OnAgreeButtonClick);
-        disagreeButton?.onClick.AddListener(OnDisagreeButtonClick);
-    }
+    //private void Update()
+    //{
+    //    agreeButton?.onClick.AddListener(OnAgreeButtonClick);
+    //    disagreeButton?.onClick.AddListener(OnDisagreeButtonClick);
+    //}
 
-    private void OnAgreeButtonClick()
-    {
-        StartCoroutine(ReloadProcess());
-    }
+    //private void OnAgreeButtonClick()
+    //{
+    //    StartCoroutine(ReloadProcess());
+    //}
 
-    private void OnDisagreeButtonClick()
-    {
+    //private void OnDisagreeButtonClick()
+    //{
 
-    }
+    //}
 
-    IEnumerator ReloadProcess()
-    {
+    //IEnumerator ReloadProcess()
+    //{
+    //    var effectController = Player.player.GetComponentInParent<DissolveController>();
 
-        var effectController = Player.player.GetComponentInParent<DissolveController>();
+    //    PlayerStat.playerStat.GetCheckpoint(Player.player.transform.position);
 
-        yield return effectController.HandleDissolve(true);
-
-        PlayerStat.playerStat.GetCheckpoint(Player.player.transform);
-
-        yield return effectController.HandleDissolve(false);
-
-        Player.player.stateMachine.ChangeState(Player.player.movementState);
-    }
+    //    Player.player.stateMachine.ChangeState(Player.player.movementState);
+    //}
 }
