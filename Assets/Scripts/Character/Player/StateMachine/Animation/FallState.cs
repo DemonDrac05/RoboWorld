@@ -10,11 +10,14 @@ public class FallState : PlayerState
 
     public override void FrameUpdate()
     {
-        player.animator.Play(player.isGrounded() ?  Landing : Falling);    
-        if (player.animator.GetCurrentAnimatorStateInfo(0).IsName(Landing)
-            && player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if (!player.IsGrounded) 
+            player.Animator.Play(Falling);
+        else 
+            player.Animator.SetBool("isLanding", true);
+
+        if (player.Animator.GetCurrentAnimatorStateInfo(0).IsName(Landing))
         {
-            player.animator.Play("Idle");
+            player.Animator.Play(Landing);
             player.stateMachine.ChangeState(player.movementState);
         }
     }

@@ -1,103 +1,90 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IComponents, IVariables
 {
-    [Header("=== Player Properties ===========")]
-    public LayerMask clickableLayer;
-    public LayerMask nonClickableLayer;
+    // --- IVariables ----------
+    public bool IsVulnerable { get; private set; }
+    public bool IsGrounded { get; private set; }
+    public bool IsMoving { get; private set; }
 
-    public float movementSpeed;
-    public float rotationSpeed;
-
-    [HideInInspector] public bool isMoving = false;
-    //public bool isGrounded = false;
-    public float groundCheckDistance;
-    private float bufferCheckDistance = 0.1f;
-    [HideInInspector] public bool isVunerable = true;
-    [HideInInspector] public Vector3 direction;
-
-    [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public Collider playerCollider;
-
-    // --- UNITY BUILT-IN ----------
+    // --- ICOMPONENTS -----------
+    public Rigidbody Rigidbody { get; private set; }
+    public Collider Collider { get; private set; }
+    public Animator Animator { get; private set; }
 
     // --- STATE MACHINE ----------
-    public PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine { get; private set; }
     public MovementState movementState;
-    public SwordAttackState swordAttackState;
     public RollState rollState;
     public FallState fallState;
+
+    public SwordAttackState swordAttackState;
     public HealthState healthState;
 
-    // --- SINGLETON INSTANCE -----------
-    [HideInInspector] public static Player player;
+    // --- SINGLETON INSTANCE ----------
+    public static Player player { get; private set; }
 
     private void Awake()
     {
         player = this;
 
+        InitializeComponents();
+        InitalizeStateMachine();
+    }
+    private void InitializeComponents()
+    {
+        Rigidbody = GetComponent<Rigidbody>();
+        Animator = GetComponent<Animator>();
+        Collider = GetComponent<Collider>();
+    }
+
+    private void InitalizeStateMachine()
+    {
         stateMachine = new PlayerStateMachine();
-        movementState = new MovementState(this, stateMachine);
-        swordAttackState = new SwordAttackState(this, stateMachine);
-        rollState = new RollState(this, stateMachine);
-        fallState = new FallState(this, stateMachine);
-        healthState = new HealthState(this, stateMachine);
+        var factory = new PlayerStateFactory(this, stateMachine);
+
+        movementState = (MovementState)factory.CreateState<MovementState>();
+        rollState = (RollState)factory.CreateState<RollState>();
+        fallState = (FallState)factory.CreateState<FallState>();
+
+        swordAttackState = (SwordAttackState)factory.CreateState<SwordAttackState>();
+        healthState = (HealthState)factory.CreateState<HealthState>();
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-        playerCollider = GetComponent<Collider>();
+        // --- SET POSITION ----------
+        transform.position = PlayerStat.playerStat.Checkpoint;
 
+        // --- SET 1. STATE ----------
         stateMachine.Initialize(fallState);
-        PlayerStat.playerStat.GetCheckpoint(transform);
     }
+
 
     private void FixedUpdate()
     {
         stateMachine.playerState.PhysicsUpdate();
-
-        SetLayerMaskOnDodging();
     }
 
     private void Update()
     {
         stateMachine.playerState.FrameUpdate();
-
-        //groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2) + bufferCheckDistance;
-        //RaycastHit hit;
-        //if (Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
-        //{
-        //    isGrounded = true;
-        //}
-        //else
-        //{
-        //    isGrounded = false;
-        //}
-        //Debug.Log(isGrounded);
-
-        if (isGrounded())
-            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
     }
 
     public void SetAnimatorBoolOnAnimationEnd(PlayerState nextState, string animationStateName, string boolParameter, bool targetState)
     {
-        AnimatorStateInfo currentState = player.animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo currentState = player.Animator.GetCurrentAnimatorStateInfo(0);
         if (currentState.IsName(animationStateName) && currentState.normalizedTime >= 1.0f)
         {
-            player.animator.SetBool(boolParameter, targetState);
+            player.Animator.SetBool(boolParameter, targetState);
+        }
+        else if (player.Animator.GetBool(boolParameter) == targetState)
+        {
             if (nextState != null) stateMachine.ChangeState(nextState);
         }
     }
 
-    public bool isGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, 0.1f, clickableLayer);
-    }
-
-
-    void SetLayerMaskOnDodging() 
-        => player.gameObject.layer = LayerMask.NameToLayer(isVunerable ? "Player" : "Ignore Raycast");
+    public void SetMobility(bool moveable) => IsMoving = moveable;
+    public void SetGrounded(bool grounded) => IsGrounded = grounded;
+    public void SetVulnerability(bool vulnerable) => IsVulnerable = vulnerable;
 }
