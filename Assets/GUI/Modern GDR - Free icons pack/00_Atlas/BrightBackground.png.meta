@@ -687,7 +687,7 @@ TextureImporter:
       name: Potion01_BrightBG
       rect:
         serializedVersion: 2
-        x: 696
+        x: 693
         y: 550
         width: 74
         height: 88
@@ -996,7 +996,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 267
-        y: 252
+        y: 255
         width: 74
         height: 74
       alignment: 0
@@ -1018,7 +1018,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 375
-        y: 251
+        y: 250
         width: 74
         height: 74
       alignment: 0
@@ -1150,9 +1150,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 35
-        y: 90
+        y: 89
         width: 76
-        height: 74
+        height: 76
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

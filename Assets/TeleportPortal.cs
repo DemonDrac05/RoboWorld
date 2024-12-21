@@ -1,33 +1,48 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class TeleportPortal : MonoBehaviour
 {
     [Header("=== Components' Meshes ==========")]
-    [SerializeField] private MeshRenderer upperSkinnedMesh;
-    [SerializeField] private MeshRenderer lowerSkinnedMesh;
+    [SerializeField] private MeshRenderer _upperSkinnedMesh;
+    [SerializeField] private MeshRenderer _lowerSkinnedMesh;
 
     [Header("=== Player Skin Meshes ==========")]
-    [SerializeField] private SkinnedMeshRenderer skinned_SurfaceMesh;
-    [SerializeField] private SkinnedMeshRenderer skinned_JointMesh;
-
-    // --- COMPONENTS' MATERIALS ----------
-    private Material[] upperSkinnedMaterials;
-    private Material[] lowerSkinnedMaterials;
-
-    [Header("=== Materials' Properties ===========")]
-    [SerializeField] private Vector2 activateEmission = new Vector2(5f, 5f);
-    [SerializeField] private Vector2 deactivateEmission = new Vector2(0f, 0.1f);
+    [SerializeField] private SkinnedMeshRenderer _skinnedSurfaceMesh;
+    [SerializeField] private SkinnedMeshRenderer _skinnedJointMesh;
 
     [Header("=== VFX Effect ==========")]
-    [SerializeField] private GameObject splashEffect;
-    [SerializeField] private GameObject circleEffect;
-    [SerializeField] private VisualEffect VFXGraph_Dissolve;
+    [SerializeField] private GameObject _splashEffect;
+    [SerializeField] private GameObject _circleEffect;
+    [SerializeField] private VisualEffect _vfxgraphDissolve;
+
+    [Header("=== Teleport Menu ==========")]
+    public GameObject teleportCanvas;
+
+    [Header("=== Player Teleport ==========")]
+    [SerializeField] private CheckpointSO _checkpoint;
+
+    // --- MATERIALS ----------
+    private Material[] _upperSkinnedMaterials;
+    private Material[] _lowerSkinnedMaterials;
 
     // --- CLASSES' DELEGATION ----------
-    private DissolveController dissolveController;
-    private Player player;
+    private DissolveController _dissolveController;
+    private PlayerInteract _playerInteract;
+    private PlayerMovement _playerMovement;
+    private Player _player;
+
+    // --- EMISSION SETTINGS ----------
+    private enum EmissionState { Activate, Deactivate }
+    private Dictionary<EmissionState, Vector2> _emissionSettings = new()
+    {
+        { EmissionState.Activate, new Vector2(5f, 5f) },
+        { EmissionState.Deactivate, new Vector2(1f, 5f) },
+    };
+
+
 
     private void OnEnable()
     {
@@ -37,79 +52,110 @@ public class TeleportPortal : MonoBehaviour
 
     private void InitializeMaterials()
     {
-        upperSkinnedMaterials = upperSkinnedMesh.materials;
-        lowerSkinnedMaterials = lowerSkinnedMesh.materials;
+        _upperSkinnedMaterials = _upperSkinnedMesh.materials;
+        _lowerSkinnedMaterials = _lowerSkinnedMesh.materials;
 
-        dissolveController.skinned_SurfaceMaterials = skinned_SurfaceMesh.materials;
-        dissolveController.skinned_JointMaterials = skinned_JointMesh.materials;
+        _dissolveController.skinned_SurfaceMaterials = _skinnedSurfaceMesh.materials;
+        _dissolveController.skinned_JointMaterials = _skinnedJointMesh.materials;
     }
 
     private void InitializeClasses()
     {
-        dissolveController = new DissolveController();
-        player = Player.player;
+        _player = Player.player;
+        _dissolveController = new DissolveController();
+        _playerInteract = _player.GetComponent<PlayerInteract>();
+        _playerMovement = _player.GetComponent<PlayerMovement>();
     }
 
     private void Start()
     {
-        dissolveController.VFXGraph = VFXGraph_Dissolve;
+        _dissolveController.VFXGraph = _vfxgraphDissolve;
 
         StartRespawnProcess();
     }
 
     private void StartRespawnProcess()
     {
-        Vector3 teleportPos = transform.position;
-        Vector3 playerPos = player.transform.position;
-        teleportPos.y = playerPos.y = 0f;
-
-        if (playerPos == teleportPos)
+        if (_player.transform.position.x == transform.position.x 
+            && _player.transform.position.z == transform.position.z)
         {
-            StartCoroutine(RespawnProcess());
+            StartCoroutine(TeleportProcess());
         }
     }
 
-    private IEnumerator RespawnProcess()
+    private IEnumerator TeleportProcess()
     {
-        GameObject circle = Instantiate(circleEffect, player.transform.position, circleEffect.transform.rotation);
+        GameObject circle = Instantiate(_circleEffect, _player.transform.position, _circleEffect.transform.rotation);
 
         yield return DissolveProcess(false);
 
-        GameObject splash = Instantiate(splashEffect, this.transform.position, splashEffect.transform.rotation);
+        GameObject splash = Instantiate(_splashEffect, this.transform.position, _splashEffect.transform.rotation);
 
         yield return new WaitUntil(() => splash.GetComponent<ParticleSystem>().isStopped);
 
-        Destroy(splash); Destroy(circle);
+        Destroy(splash); 
+        Destroy(circle);
     }
 
     private IEnumerator DissolveProcess(bool dissolve)
     {
-        player.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        _player.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
-        yield return dissolveController.DissolveProcess(dissolve);
+        yield return _dissolveController.DissolveProcess(dissolve);
 
-        player.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        _player.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void OnTriggerStay(Collider collider)
     {
         if (collider == Player.player.Collider)
         {
-            SetMaterialEmission(activateEmission);
+            _playerInteract.isTriggerPortal = true;
+            _playerInteract.SetCurrentPortal(this);
+
+            SetMaterialEmission(EmissionState.Activate);
+
+            if (!_checkpoint.checkpoints.Contains(this.transform.position))
+            {
+                _checkpoint.checkpoints.Add(this.transform.position);
+                StartCoroutine(UnlockPortalProcess());
+            }
         }
+    }
+
+    private void SetPlayerPosInCenter(Vector3 teleportPos, float posY) 
+        => _player.transform.position = new(teleportPos.x, posY, teleportPos.z);
+
+    private IEnumerator UnlockPortalProcess()
+    {
+        _playerMovement.SetMobility(false);
+
+        SetPlayerPosInCenter(transform.position, -10f);
+
+        GameObject splash = Instantiate(_splashEffect, transform.position, _splashEffect.transform.rotation);
+
+        float duration = splash.GetComponent<ParticleSystem>().main.duration;
+
+        yield return new WaitForSeconds(duration);
+
+        Destroy(splash);
+
+        _playerMovement.SetMobility(true);
     }
 
     private void OnTriggerExit(Collider collider)
     {
         if (collider == Player.player.Collider)
         {
-            SetMaterialEmission(deactivateEmission);
+            _playerInteract.isTriggerPortal = false;
+            _playerInteract.SetCurrentPortal(null);
         }
     }
 
-    private void SetMaterialEmission(Vector2 intensity)
+    private void SetMaterialEmission(EmissionState emissionState)
     {
-        var targetMaterials = new[] { upperSkinnedMaterials, lowerSkinnedMaterials };
+        Vector2 intensity = _emissionSettings[emissionState];
+        var targetMaterials = new[] { _upperSkinnedMaterials, _lowerSkinnedMaterials };
         foreach (var materials in targetMaterials)
         {
             if (materials == null) continue;

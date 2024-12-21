@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Stats
 {
-    [CreateAssetMenu(menuName = "Stats/Base Stats")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/Stats/Base Stats")]
     public class BaseStatSO : ScriptableObject
     {
         [Header("=== Basic Stats ==========")]
