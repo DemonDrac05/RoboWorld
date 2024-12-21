@@ -62,6 +62,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbb3a2dd-50ea-4090-ade6-8c6fef8da9ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BulletFire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78c7d0b3-b9f2-4ea8-809e-5de1060b0b6a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +140,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Roll = m_Gameplay.FindAction("Roll", throwIfNotFound: true);
         m_Gameplay_MissileLaunch = m_Gameplay.FindAction("MissileLaunch", throwIfNotFound: true);
         m_Gameplay_BulletFire = m_Gameplay.FindAction("BulletFire", throwIfNotFound: true);
+        m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@GameInputActions()
@@ -190,6 +211,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Roll;
     private readonly InputAction m_Gameplay_MissileLaunch;
     private readonly InputAction m_Gameplay_BulletFire;
+    private readonly InputAction m_Gameplay_Interact;
     public struct GameplayActions
     {
         private @GameInputActions m_Wrapper;
@@ -198,6 +220,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @Roll => m_Wrapper.m_Gameplay_Roll;
         public InputAction @MissileLaunch => m_Wrapper.m_Gameplay_MissileLaunch;
         public InputAction @BulletFire => m_Wrapper.m_Gameplay_BulletFire;
+        public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -219,6 +242,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @BulletFire.started += instance.OnBulletFire;
             @BulletFire.performed += instance.OnBulletFire;
             @BulletFire.canceled += instance.OnBulletFire;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -235,6 +261,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @BulletFire.started -= instance.OnBulletFire;
             @BulletFire.performed -= instance.OnBulletFire;
             @BulletFire.canceled -= instance.OnBulletFire;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -258,5 +287,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnMissileLaunch(InputAction.CallbackContext context);
         void OnBulletFire(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

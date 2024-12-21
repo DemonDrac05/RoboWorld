@@ -7,36 +7,44 @@ using UnityEngine.UI;
 
 public class PauseMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    // --- COMPONENTS OFFSET ----------
+    private Vector2 iconObjectOffset = Vector2.zero;
+    private Vector2 textObjectOffset = Vector2.zero;
+
+    [Header("=== COMPONENTS OFFSET X ==========")]
+    [SerializeField] protected float offset_IconPosX;
+    [SerializeField] protected float offset_TextPosX;
+
     [Header("=== GUI Properties =========")]
-    [SerializeField] private Color enterIconColor;
-    [SerializeField] private Color enterFrameColor;
-    [SerializeField] private Color clickIconColor;
-    [SerializeField] private Color clickFrameColor;
+    [SerializeField] protected Color enterIconColor = new Color(0, 222, 255, 255);
+    [SerializeField] protected Color enterFrameColor = new Color(0, 63, 116, 125);
+    [SerializeField] protected Color clickIconColor = new Color(0, 125, 125, 255);
+    [SerializeField] protected Color clickFrameColor = new Color(0, 63,  63, 125);
 
     [Header("=== Animation Properties ==========")]
-    [SerializeField] private float duration;
-    [SerializeField] private float distanceToOutScreen;
+    [SerializeField] protected float duration;
+    [SerializeField] protected float distanceToOutScreen;
 
-    // === Original Colors ==========
-    private Color original_iconColor;
-    private Color original_frameColor;
+    // --- ORIGINAL COLOR -----------
+    protected Color original_iconColor;
+    protected Color original_frameColor;
 
-    // === GUI Components ==========
-    private Image iconObject;
-    private Image textObject;
-    private Image icon;
-    private TextMeshProUGUI text;
+    // --- GUI CHILDREN COMPONENTS ---------- 
+    protected Image iconObject;
+    protected Image textObject;
+    protected Image icon;
+    protected TextMeshProUGUI text;
 
-    // === Constant name variables =========
-    private const string Menu_BackgroundIconName = "[BackgroundIcon]";
-    private const string Menu_BackgroundTextName = "[BackgroundText]";
-    private const string Menu_ButtonName = "[Button]";
-    private const string Menu_IconName = "[Icon]";
-    private const string Menu_TextName = "[TMP]";
+    // --- CONSTANT COMPONENTS NAME ----------
+    protected const string Menu_BackgroundIconName = "[BackgroundIcon]";
+    protected const string Menu_BackgroundTextName = "[BackgroundText]";
+    protected const string Menu_ButtonName = "[Button]";
+    protected const string Menu_IconName = "[Icon]";
+    protected const string Menu_TextName = "[TMP]";
 
-    private const string Menu_Options = Menu_ButtonName + " Options";
-    private const string Menu_Resume = Menu_ButtonName + " Resume";
-    private const string Menu_Exit = Menu_ButtonName + " Exit";
+    protected const string Menu_Options = Menu_ButtonName + " Options";
+    protected const string Menu_Resume = Menu_ButtonName + " Resume";
+    protected const string Menu_Exit = Menu_ButtonName + " Exit";
 
     private void Awake()
     {
@@ -50,13 +58,10 @@ public class PauseMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         original_frameColor = textObject.color;
     }
 
-    private Vector2 iconObjectOffset = Vector2.zero;
-    private Vector2 textObjectOffset = Vector2.zero;
-
-    private void OnEnable()
+    public virtual void OnEnable()
     {
-        iconObjectOffset = new Vector2(-200f, iconObject.transform.localPosition.y);
-        textObjectOffset = new Vector2(+150f, textObject.transform.localPosition.y);
+        iconObjectOffset = new Vector2(offset_IconPosX, iconObject.transform.localPosition.y);
+        textObjectOffset = new Vector2(offset_TextPosX, textObject.transform.localPosition.y);
 
         iconObject.GetComponent<RectTransform>().anchoredPosition = new(-distanceToOutScreen, iconObjectOffset.y);
         textObject.GetComponent<RectTransform>().anchoredPosition = new(+distanceToOutScreen, textObjectOffset.y);
@@ -88,6 +93,11 @@ public class PauseMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         yield return new WaitForSecondsRealtime(duration);
 
+        FunctionButtons();
+    }
+
+    public virtual void FunctionButtons()
+    {
         switch (this.gameObject.name)
         {
             case Menu_Resume:
