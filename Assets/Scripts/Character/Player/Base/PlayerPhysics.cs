@@ -18,10 +18,7 @@ public class PlayerPhysics : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(CheckIsGrounded());
-
         SetBodyOnGround();
-
 
         player.SetGrounded(CheckIsGrounded());
     }

@@ -1,7 +1,7 @@
 using Game.Stats;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Stats/Player Stats")]
+[CreateAssetMenu(menuName = "ScriptableObjects/Stats/Player Stats")]
 public class PlayerStatSO : BaseStatSO
 {
     [Header("=== Basic Addition =========")]

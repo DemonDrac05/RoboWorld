@@ -18,13 +18,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 targetPosition;
     private Vector3 charDirection;
 
-    // ---
+    // --- Mobility Control ---
+    private bool canMove = true;
+
+    // --- Player reference ---
     private Player player;
 
     private void Awake() => player = GetComponent<Player>();
 
     public void MoveCharacter()
     {
+        if (!canMove) return;
+
         if (Mouse.current.leftButton.isPressed)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -63,15 +68,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void RotateCharacter()
     {
-        Vector3 mousePosition = Input.mousePosition;
+        if (!canMove) return; 
 
+        Vector3 mousePosition = Input.mousePosition;
         Ray ray = mainCamera.ScreenPointToRay(mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             Vector3 targetPosition = hitInfo.point;
-
             Vector3 direction = targetPosition - transform.position;
-            direction.y = 0; 
+            direction.y = 0;
 
             if (direction.sqrMagnitude > 0.01f)
             {
@@ -80,4 +85,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public void SetMobility(bool value)
+    {
+        player.SetMobility(value);
+        canMove = value;
+    }
 }
+
