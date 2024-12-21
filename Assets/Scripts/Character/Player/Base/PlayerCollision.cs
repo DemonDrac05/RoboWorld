@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
+    private Player player;
+
     private bool isTouchingWall = false;
     private float additionalGravity = 20f;
     private float maxSlideSpeed = -10f;
@@ -10,14 +12,12 @@ public class PlayerCollision : MonoBehaviour
     private void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        player = GetComponent<Player>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-        }
+        Debug.Log(collision.gameObject.name);
     }
 
     private void OnCollisionStay(Collision collision)
