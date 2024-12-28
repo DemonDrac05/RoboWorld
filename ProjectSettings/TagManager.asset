@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Wall
+  - Bullet
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -14,8 +17,8 @@ TagManager:
   - UI
   - Non-clickable
   - Player
-  - 
-  - 
+  - Enemy
+  - Bullet
   - 
   - 
   - 
@@ -41,6 +44,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Instruction
+    uniqueID: 3210258737
     locked: 0
   m_RenderingLayers:
   - Default

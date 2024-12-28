@@ -32,6 +32,7 @@ public class ParticleCollision : MonoBehaviour
                 if (player != null)
                 {
                     CombatManager.instance.ApplyRangedDamage(player, enemyStat);
+                    Debug.Log(Player.player.stateMachine.ToString());
                 }
             }
             else if (playerStat != null)
@@ -40,7 +41,8 @@ public class ParticleCollision : MonoBehaviour
                 if (enemy != null)
                 {
                     CombatManager.instance.ApplyRangedDamage(enemy, playerStat);
-                    Debug.Log("Player got attack");
+
+                    Player.player.stateMachine.ChangeState(Player.player.healthState);
                 }
             }
         }

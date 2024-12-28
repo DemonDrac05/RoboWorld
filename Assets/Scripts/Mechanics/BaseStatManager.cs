@@ -12,6 +12,9 @@ public class BaseStatManager : MonoBehaviour
     public float MeleeWeaponDamage { get; private set; }
     public float RangeWeaponSpeed { get; private set; }
     public float MeleeWeaponSpeed { get; private set; }
+    public float PiercingPercentage { get; private set; }
+    public float CriticalChance { get; private set; }
+    public float CriticalDamage { get; private set; }
 
     public virtual void OnEnable() => InitializeStat();
 
@@ -26,6 +29,10 @@ public class BaseStatManager : MonoBehaviour
 
         RangeWeaponSpeed = baseStatSO.rangeWeaponSpeed;
         MeleeWeaponSpeed = baseStatSO.meleeWeaponSpeed;
+
+        PiercingPercentage = baseStatSO.piercingPercentage;
+        CriticalChance = baseStatSO.criticalChance;
+        CriticalDamage = baseStatSO.criticalDamage;
     }
 
     protected void SetHealth(float val)
@@ -41,7 +48,7 @@ public class BaseStatManager : MonoBehaviour
     {
         Health = Mathf.Max(0f, Health - damage);
     }
-    public void TakeShieldDamge(float damage)
+    public void TakeShieldDamage(float damage)
     {
         Shield = Mathf.Max(0f, Shield - damage);
     }

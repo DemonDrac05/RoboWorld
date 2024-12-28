@@ -20,11 +20,10 @@ public class ParticleStopChecker : MonoBehaviour
             var particle = _particles[i];
             if (particle.isStopped)
             {
-                _particles.RemoveAt(i); // Safely remove the particle
+                _particles.RemoveAt(i);
             }
         }
 
-        // Destroy the GameObject if the list is empty
         if (_particles.Count == 0)
         {
             Destroy(this.gameObject);

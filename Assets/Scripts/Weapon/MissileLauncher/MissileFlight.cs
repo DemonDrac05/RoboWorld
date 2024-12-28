@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class MissileFlight : MonoBehaviour
 {
     public float flightDuration;
     public Vector3 controlPoint;
-    public GameObject explosionEffect;
 
     [HideInInspector] public Transform movingTarget = null;
 
@@ -50,17 +50,12 @@ public class MissileFlight : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        GameObject explosion = Instantiate(explosionEffect, transform);
-        var effect = explosion.GetComponent<ParticleSystem>();
-        effect.Play();
-
         transform.position = movingTarget.position;
+
+        CombatManager.instance.ApplyMissileDamage(PlayerStat.playerStat, movingTarget.GetComponent<EnemyStat>());
 
         MissileLaunch.missileManager.targetList.Remove(this.gameObject);
 
-        yield return new WaitUntil(() => effect.isStopped && effect.particleCount == 0);
-
-        Destroy(explosion.gameObject);
         Destroy(this.gameObject);
     }
 }

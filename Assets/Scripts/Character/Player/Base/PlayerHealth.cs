@@ -54,13 +54,13 @@ public class PlayerHealth : MonoBehaviour
         UpdateStatUI(shieldSlider, null, currentShield);
         UpdateStatUI(staminaSlider, staminaText, currentStamina);
 
-        ShieldRecovery();
+        if (currentHealth == playerStat.playerStatSO.maxHealth) ShieldRecovery();
         StaminaRecovery();
     }
 
     private void UpdateStatUI(Slider slider, TMPro.TextMeshProUGUI text, float currentValue)
     {
-        slider.value = currentValue;
+        slider.value = ((int)currentValue);
         if (text != null) text.text = $"{currentValue}";
     }
 

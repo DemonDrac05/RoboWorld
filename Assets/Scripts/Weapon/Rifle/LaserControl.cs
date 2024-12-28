@@ -1,33 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LaserControl : MonoBehaviour
 {
-    private ParticleSystem laserBeam;
-
-    private void Start()
-    {
-        laserBeam = GetComponentInChildren<ParticleSystem>();
-    }
+    public Transform shootingPoint;
+    public GameObject bulletPrefab;
+    public float bulletSpeed;
 
     private void Update()
     {
-        var player = Player.player;
-        if (player.stateMachine.playerState != player.swordAttackState)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            if (Input.GetKey(KeyCode.Z) && !laserBeam.isPlaying)
-            {
-                laserBeam.Play();
-            }
-            if (Input.GetKeyUp(KeyCode.Z) && laserBeam.isPlaying)
-            {
-                laserBeam.Stop();
-            }
-        }
-        else
-        {
-            laserBeam.Stop();
-        }
+            var bullet = Instantiate(bulletPrefab, shootingPoint.transform.position, shootingPoint.rotation);
 
-        //laserBeam.transform.position = new Vector3(player.transform.position.x, 1.3f, player.transform.position.z);
+            bullet.GetComponent<Bullet>().Initialize(shootingPoint.gameObject);
+            bullet.GetComponent<Rigidbody>().linearVelocity = shootingPoint.forward * bulletSpeed;
+        }
     }
 }

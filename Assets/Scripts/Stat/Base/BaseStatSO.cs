@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Stats
 {
-    [CreateAssetMenu(menuName = "Stats/Base Stats")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/Stats/Base Stats")]
     public class BaseStatSO : ScriptableObject
     {
         [Header("=== Basic Stats ==========")]
@@ -17,30 +17,12 @@ namespace Game.Stats
         [Header("=== Weapon Speed ==========")]
         public float rangeWeaponSpeed;
         public float meleeWeaponSpeed;
-    }
 
-    [CreateAssetMenu(menuName = "Stats/Player Stats")]
-    public class PlayerStatSO : BaseStatSO
-    {
-        [Header("=== Basic Addition =========")]
-        public float maxStamina;
-
-        [Header("=== Weapon Damage Addition ==========")]
-        public float missileDamage;
-        public float missileAOEDamage;
-
-        [Header("=== Weapon Speed Addition ==========")]
-        public float missileLaunchingTime;
-        public float missileLaunchingCooldown;
-
-        [Header("=== Unique Stats ==========")]
+        [Header("=== Unique Stat ==========")]
         [Range(0f, 1f)] public float piercingPercentage;
 
-        [Range(0f, 1f)] public float shieldRecPercentage;
-        [Range(0f, 1f)] public float shieldRecDuration;
-
-        [Range(0f, 1f)] public float staminaRecPercentage;
-        [Range(0f, 1f)] public float staminaRecDuration;
+        [Range(0f, 1f)] public float criticalChance;
+        [Range(0f, 10f)] public float criticalDamage;
     }
 }
 
