@@ -5,6 +5,7 @@ public class BaseStatManager : MonoBehaviour
 {
     public BaseStatSO baseStatSO;
 
+    public float Speed { get; private set; }
     public float Health { get; private set; }
     public float Shield { get; private set; }
     public float Defense { get; private set; }
@@ -20,6 +21,7 @@ public class BaseStatManager : MonoBehaviour
 
     public virtual void InitializeStat()
     {
+        Speed = baseStatSO.maxSpeed;
         Health = baseStatSO.maxHealth;
         Shield = baseStatSO.maxShield;
         Defense = baseStatSO.maxDefense;
@@ -35,14 +37,17 @@ public class BaseStatManager : MonoBehaviour
         CriticalDamage = baseStatSO.criticalDamage;
     }
 
-    protected void SetHealth(float val)
-    {
-        Health = Mathf.Clamp(val, 0, baseStatSO.maxShield);
-    }
-    protected void SetShield(float val)
-    {
-        Shield = Mathf.Clamp(val, 0, baseStatSO.maxShield);
-    }
+    protected void SetSpeed(float val) => Speed = Mathf.Clamp(val, 0f, baseStatSO.maxSpeed);
+    protected void SetHealth(float val) => Health = Mathf.Clamp(val, 0, baseStatSO.maxHealth);
+    protected void SetShield(float val) => Shield = Mathf.Clamp(val, 0, baseStatSO.maxShield);
+    protected void SetDefense(float val) => Defense = Mathf.Clamp(val, 0, baseStatSO.maxDefense);
+    public void SetRangeWeaponDamage(float val) => RangeWeaponDamage = Mathf.Clamp(val, 0, baseStatSO.rangeWeaponDamage);
+    public void SetMeleeWeaponDamage(float val) => MeleeWeaponDamage = Mathf.Clamp(val, 0, baseStatSO.meleeWeaponDamage);
+    public void SetRangeWeaponSpeed(float val) => RangeWeaponSpeed = Mathf.Clamp(val, 0, baseStatSO.rangeWeaponSpeed);
+    public void SetMeleeWeaponSpeed(float val) => MeleeWeaponSpeed = Mathf.Clamp(val, 0, baseStatSO.meleeWeaponSpeed);
+    public void SetPiercingPercentage(float val) => PiercingPercentage = Mathf.Clamp(val, 0, baseStatSO.piercingPercentage);
+    public void SetCriticalChance(float val) => CriticalChance = Mathf.Clamp(val, 0, baseStatSO.criticalChance);
+    public void SetCriticalDamage(float val) => CriticalDamage = Mathf.Clamp(val, 0, baseStatSO.criticalDamage);
 
     public void TakeHealthDamage(float damage)
     {
