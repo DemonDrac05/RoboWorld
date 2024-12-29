@@ -7,6 +7,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b0d01ca75fc890b76e81202d655d17c1f4214a18"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -301,6 +308,13 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "jillejr.newtonsoft.json-for-unity": {
+      "version": "13.0.102",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
