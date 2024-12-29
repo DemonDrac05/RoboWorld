@@ -6,6 +6,7 @@ namespace Game.Stats
     public class BaseStatSO : ScriptableObject
     {
         [Header("=== Basic Stats ==========")]
+        public float maxSpeed;
         public float maxHealth;
         public float maxShield;
         public float maxDefense;
