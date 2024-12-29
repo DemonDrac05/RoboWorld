@@ -6,15 +6,15 @@ using UnityEngine.VFX;
 public class DissolveController : MonoBehaviour
 {
     // --- PLAYER MESHES MATERIALS ----------
-    public Material[] skinned_SurfaceMaterials;
-    public Material[] skinned_JointMaterials;
+    public Material[] _skinnedSurfaceMaterials;
+    public Material[] _skinnedJointMaterials;
 
     // --- DISSOLVE EFFECT ----------
     public VisualEffect VFXGraph;
 
     // --- SHADER GRAPH PROPERTIES -----------
-    private const float dissolveRate = 0.0125f;
-    private const float refreshRate = 0.025f;
+    private const float _dissolveRate = 0.0125f;
+    private const float _refreshRate = 0.025f;
 
     public IEnumerator DissolveProcess(bool dissolve)
     {
@@ -24,10 +24,10 @@ public class DissolveController : MonoBehaviour
             VFXGraph.Play();
         }
 
-        var targetMaterials = new[] { skinned_SurfaceMaterials, skinned_JointMaterials };
+        var targetMaterials = new[] { _skinnedSurfaceMaterials, _skinnedJointMaterials };
         float counter = dissolve ? 0 : 1;
         float targetValue = dissolve ? 1 : 0;
-        float step = dissolve ? dissolveRate : -dissolveRate;
+        float step = dissolve ? _dissolveRate : -_dissolveRate;
 
         while ((dissolve && counter < targetValue) || (!dissolve && counter > targetValue))
         {
@@ -44,7 +44,7 @@ public class DissolveController : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(refreshRate);
+            yield return new WaitForSeconds(_refreshRate);
         }
     }
 }

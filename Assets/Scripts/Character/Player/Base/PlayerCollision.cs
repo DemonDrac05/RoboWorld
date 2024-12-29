@@ -15,11 +15,6 @@ public class PlayerCollision : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
-
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))

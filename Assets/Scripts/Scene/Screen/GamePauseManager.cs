@@ -1,16 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GamePauseManager : MonoBehaviour
 {
     [Header("=== GUI Assets ==========")]
     public GameObject pauseMenuCanvas;
-    public PauseMenuButton resumeButton;
+
+    private GameObject portalMenuCanvas;
 
     [HideInInspector] public bool isPaused = false;
-    [HideInInspector] public static GamePauseManager instance;
+    public static GamePauseManager instance { get; private set; } 
 
     private PlayerMovement playerMovement;
 
@@ -24,27 +25,47 @@ public class GamePauseManager : MonoBehaviour
     {
         if (isPaused)
         {
-            StartCoroutine(resumeButton.ProcessPauseMenuButtons());
+            if (CheckpointManager.instance.IsUsingPortal())
+            {
+                StartCoroutine(ResumePortalMenu());
+            }
+            else if (pauseMenuCanvas.activeSelf)
+            {
+                StartCoroutine(ResumePauseMenu());
+            }
         }
         else
         {
             PauseGame();
-            pauseMenuCanvas.SetActive(true);
+            if (!CheckpointManager.instance.IsUsingPortal()) pauseMenuCanvas.SetActive(true);
         }
+    }
+
+    private IEnumerator ResumePauseMenu()
+    {
+        var resumeButton = pauseMenuCanvas.transform.Find("[Button] Resume").gameObject;
+        yield return resumeButton.GetComponent<PauseMenuButton>().ProcessPauseMenuButtons();
+    }
+
+    private IEnumerator ResumePortalMenu()
+    {
+        portalMenuCanvas = CheckpointManager.instance.currentPortal;
+        var portalResumeButton = portalMenuCanvas?.transform.Find("[Button] Resume").gameObject;
+        yield return portalResumeButton.GetComponent<TeleportMenuButton>().ProcessPauseMenuButtons();
     }
 
     public void PauseGame()
     {
         Time.timeScale = 0;
         isPaused = true;
-        playerMovement.SetMobility(false); // Disable player movement on pause.
+        playerMovement.SetMobility(false);
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
         isPaused = false;
-        playerMovement.SetMobility(true); // Re-enable player movement on resume.
+        playerMovement.SetMobility(true);
     }
 
     public void LoadScene(bool gamePaused, string sceneName)
