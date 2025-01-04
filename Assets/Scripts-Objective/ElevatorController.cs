@@ -7,21 +7,16 @@ public class ElevatorController : MonoBehaviour
     public float speed = 2.0f;
     public float waitTime = 1.0f;
 
-    [SerializeField] private MovementDirection direction = MovementDirection.Vertical; // Direction selector
+    [SerializeField] private MovementDirection direction = MovementDirection.Vertical;
 
-    private Vector3 bottomPosition;
-    private Vector3 topPosition;
+    private Vector3 startPosition;
     private Vector3 targetPosition;
 
     void Start()
     {
-        // Set movement direction
-        Vector3 movementVector = direction == MovementDirection.Vertical ? Vector3.up : Vector3.forward;
-
-        bottomPosition = transform.position;
-        topPosition = bottomPosition + movementVector * distance;
-        targetPosition = topPosition;
-
+        Vector3 movementVector = GetMovementVector(direction);
+        startPosition = transform.position;
+        targetPosition = startPosition + movementVector * distance;
         StartCoroutine(MoveElevator());
     }
 
@@ -29,25 +24,37 @@ public class ElevatorController : MonoBehaviour
     {
         while (true)
         {
-            // Move towards the target position
             while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
                 yield return null;
             }
 
-            // Wait at the target position
             yield return new WaitForSeconds(waitTime);
 
-            // Switch target position
-            targetPosition = targetPosition == bottomPosition ? topPosition : bottomPosition;
+            targetPosition = targetPosition == startPosition ? startPosition + GetMovementVector(direction) * distance : startPosition;
         }
     }
 
-    // Enum for movement direction
     public enum MovementDirection
     {
         Vertical,
-        Horizontal
+        Horizontal,
+        SideToSide
+    }
+
+    private Vector3 GetMovementVector(MovementDirection direction)
+    {
+        switch (direction)
+        {
+            case MovementDirection.Vertical:
+                return Vector3.up;
+            case MovementDirection.Horizontal:
+                return Vector3.forward;
+            case MovementDirection.SideToSide:
+                return Vector3.left; // Adjusted to move backward first (negative X direction)
+            default:
+                return Vector3.zero;
+        }
     }
 }
