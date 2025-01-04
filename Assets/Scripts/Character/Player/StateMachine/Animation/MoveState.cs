@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public class MovementState : PlayerState
+public class MoveState : PlayerState
 {
     private PlayerMovement playerMovement;
     private GameInputActions controls;
@@ -25,7 +25,7 @@ public class MovementState : PlayerState
     private PlayerWeapon weapon;
     private Coroutine fireCoroutine;
 
-    public MovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
+    public MoveState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
     {
         this.playerMovement = player.GetComponent<PlayerMovement>();
         this.weapon = player.GetComponent<PlayerWeapon>();

@@ -109,8 +109,7 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             case Menu_NewGame:
                 SaveSystem.NewGame();
-                await SaveSystem.LoadGameProcess();
-                SceneManager.LoadScene("TerrainScene");
+                await SaveSystem.LoadGameSuccess();
                 break;
             case Menu_LoadGame:
                 _mainMenuCanvas.SetActive(false);

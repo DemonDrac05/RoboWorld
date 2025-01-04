@@ -58,14 +58,12 @@ public class GamePauseManager : MonoBehaviour
     {
         Time.timeScale = 0;
         isPaused = true;
-        playerMovement.SetMobility(false);
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
         isPaused = false;
-        playerMovement.SetMobility(true);
     }
 
     public void LoadScene(bool gamePaused, string sceneName)

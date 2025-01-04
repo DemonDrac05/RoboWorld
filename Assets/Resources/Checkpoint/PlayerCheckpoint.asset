@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpoints:
   - {x: 0, y: -11.59, z: 0}
-  - {x: 0, y: -11.59, z: -15}
