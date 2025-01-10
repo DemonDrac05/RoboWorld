@@ -1472,7 +1472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _contentTransform: {fileID: 391764805}
   _saveBlockObject: {fileID: 3029242870190088164, guid: 5f6d59b661493254ea356590c7430b42, type: 3}
-  saveBlockDataSO: {fileID: 11400000, guid: 98d1e1e1570d07c4da95f248eba783b6, type: 2}
+  saveBlockDataSO: {fileID: 11400000, guid: b3f7e55f8a28d714fab8c5b479452ae9, type: 2}
 --- !u!1 &863279229
 GameObject:
   m_ObjectHideFlags: 0
