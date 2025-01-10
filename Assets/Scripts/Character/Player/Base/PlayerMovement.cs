@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove) return;
 
-        if (Mouse.current.leftButton.isPressed)
+        if (Mouse.current.leftButton.isPressed && !GamePauseManager.instance.isPaused)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -90,6 +91,11 @@ public class PlayerMovement : MonoBehaviour
     {
         player.SetMobility(value);
         canMove = value;
+    }
+
+    public void ReloadMovement()
+    {
+        targetPosition = transform.position;
     }
 }
 

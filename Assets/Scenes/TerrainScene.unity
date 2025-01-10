@@ -1259,6 +1259,7 @@ GameObject:
   - component: {fileID: 1183865396}
   - component: {fileID: 1183865398}
   - component: {fileID: 1183865397}
+  - component: {fileID: 1183865399}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -1310,6 +1311,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuCanvas: {fileID: 1807121324}
   isPaused: 0
+--- !u!114 &1183865399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183865395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3319d0d599ccdd488ef3be1a6aae69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitScreenPrefab: {fileID: 4165822340920654392, guid: 6e08105807022634d9effb01d7c2449e, type: 3}
 --- !u!1 &1319904125
 GameObject:
   m_ObjectHideFlags: 0

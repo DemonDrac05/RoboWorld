@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Cysharp.Threading.Tasks;
 
 public class TeleportPortal : MonoBehaviour
 {
+    [Header("=== Portal Properties ==========")]
+    public string portalName;
+
     [Header("=== Components' Meshes ==========")]
     [SerializeField] private MeshRenderer _upperSkinnedMesh;
     [SerializeField] private MeshRenderer _lowerSkinnedMesh;
@@ -18,7 +22,7 @@ public class TeleportPortal : MonoBehaviour
     [SerializeField] private GameObject _circleEffect;
     [SerializeField] private VisualEffect _vfxgraphDissolve;
 
-    [Header("=== Teleport Menu ==========")]
+    [Header("=== Portal Menu ==========")]
     public GameObject teleportCanvas;
 
     [Header("=== Player Teleport ==========")]
@@ -92,6 +96,8 @@ public class TeleportPortal : MonoBehaviour
 
     private IEnumerator TeleportProcess()
     {
+        Player.player.SetMobility(false);
+
         GameObject circle = Instantiate(_circleEffect, _player.transform.position, _circleEffect.transform.rotation);
 
         yield return DissolveProcess(false);

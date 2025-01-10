@@ -1,4 +1,4 @@
-using Game.Stats;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerStat : BaseStatManager
@@ -25,43 +25,15 @@ public class PlayerStat : BaseStatManager
     public override void OnEnable()
     {
         playerStat = this;
-        ApplyPlayerData(SaveSystem.LoadGame());
-    }
-
-    public override void InitializeStat()
-    {
-        base.InitializeStat();
-        
-        Stamina = playerStatSO.maxStamina;
-
-        MissileDamage = playerStatSO.missileDamage;
-        MissileAOEDamage = playerStatSO.missileAOEDamage;
-
-        MissileLaunchingTime = playerStatSO.missileLaunchingTime;
-        MissileLaunchingCooldown = playerStatSO.missileLaunchingCooldown;
-
-        ShieldRecPercentage = playerStatSO.shieldRecPercentage;
-        ShieldRecDuration = playerStatSO.shieldRecDuration;
-        StaminaRecPercentage = playerStatSO.staminaRecPercentage;
-        StaminaRecDuration = playerStatSO.staminaRecDuration;
-
-        Checkpoint = playerStatSO.checkPoint;
-        HeightOfCheckpoint = playerStatSO.heightOfCheckpoint;
     }
 
     public void SetStamina(float val) => Stamina = Mathf.Clamp(val, 0, playerStatSO.maxStamina);
     public void RecoveryShield(float amount) => SetShield(Shield + amount);
     public void RecoveryStamina(float amount) => Stamina = Mathf.Min(Stamina + amount, playerStatSO.maxStamina);
 
-    public void SetCheckpoint(Vector3 savedCheckpoint)
-    {
-        Vector3 fixedCheckpoint = new Vector3(savedCheckpoint.x, savedCheckpoint.y + HeightOfCheckpoint, savedCheckpoint.z);
-        playerStatSO.checkPoint = Checkpoint = fixedCheckpoint;
-    }
-
     public PlayerData CreatePlayerData(Vector3 saveCheckpoint) => new PlayerData(this, saveCheckpoint);
 
-    public void ApplyPlayerData(PlayerData playerData)
+    public async UniTask ApplyPlayerData(PlayerData playerData)
     {
         SetSpeed(playerData.maxSpeed);
         SetHealth(playerData.maxHealth);
@@ -89,6 +61,8 @@ public class PlayerStat : BaseStatManager
         StaminaRecDuration = playerData.staminaRecDuration;
 
         HeightOfCheckpoint = playerData.heightOfCheckpoint;
-        Checkpoint = new Vector3(playerData.checkpoint[0], playerData.checkpoint[1], playerData.checkpoint[2]);
+        transform.position = Checkpoint = new Vector3(playerData.checkpoint[0], playerData.checkpoint[1], playerData.checkpoint[2]);
+
+        await UniTask.Yield();
     }
 }
