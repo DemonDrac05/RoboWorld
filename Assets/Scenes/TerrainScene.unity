@@ -747,6 +747,7 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 8418141672939372927, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
@@ -759,6 +760,13 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -22.03
 >>>>>>> ebf8390a511467ecd46d466c8f802ee3578accd7
+=======
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8418141672939372927, guid: f9a49f16048462441ad63f79eb2f7157, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -374.28
+>>>>>>> parent of 23a8d25 (Testing)
 =======
       value: 7
       objectReference: {fileID: 0}
@@ -1498,6 +1506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitScreenPrefab: {fileID: 4165822340920654392, guid: 6e08105807022634d9effb01d7c2449e, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1188040197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,6 +1582,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 6386885765910680860}
   m_PrefabAsset: {fileID: 0}
 >>>>>>> ebf8390a511467ecd46d466c8f802ee3578accd7
+=======
+>>>>>>> parent of 23a8d25 (Testing)
 =======
 >>>>>>> parent of 23a8d25 (Testing)
 --- !u!1 &1319904125
@@ -2909,6 +2920,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_AddedGameObjects:
 <<<<<<< HEAD
     - targetCorrespondingSourceObject: {fileID: 7621271350075784695, guid: ed3b1d8d59a99404fb78b3c4fd249e66, type: 3}
@@ -2919,6 +2931,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 300421155}
 >>>>>>> ebf8390a511467ecd46d466c8f802ee3578accd7
+=======
+    m_AddedGameObjects: []
+>>>>>>> parent of 23a8d25 (Testing)
 =======
     m_AddedGameObjects: []
 >>>>>>> parent of 23a8d25 (Testing)
