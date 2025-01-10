@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: SavedDataBlock
   m_EditorClassIdentifier: 
   saveBlockDatas:
-  - savePath: C:/Users/Owner/AppData/LocalLow/DefaultCompany/TestingTopDown3D\playerData1.json
+  - savePath: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/TestingTopDown3D\playerData1.json
     blockName: '[Button] SavePath1'
     blockPosition: {x: 0, y: 175, z: 0}
+<<<<<<< HEAD
   - savePath: C:/Users/Owner/AppData/LocalLow/DefaultCompany/TestingTopDown3D\playerData2.json
     blockName: '[Button] SavePath2'
     blockPosition: {x: 0, y: 0, z: 0}
@@ -25,3 +26,5 @@ MonoBehaviour:
   - savePath: C:/Users/Owner/AppData/LocalLow/DefaultCompany/TestingTopDown3D\playerData4.json
     blockName: '[Button] SavePath4'
     blockPosition: {x: 0, y: -350, z: 0}
+=======
+>>>>>>> ebf8390a511467ecd46d466c8f802ee3578accd7
