@@ -51,7 +51,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (isTriggerPortal)
         {
-            interactCanvas?.SetActive(!currentPortal.teleportCanvas.activeSelf);
+            interactCanvas?.SetActive(!currentPortal.portalCanvas.activeSelf);
         }
         else
         {
@@ -75,6 +75,8 @@ public class PlayerInteract : MonoBehaviour
 
         yield return new WaitUntil(() => !interactCanvas.activeSelf);
 
-        if (currentPortal != null) currentPortal.teleportCanvas.SetActive(true);
+        yield return currentPortal.PortalOpening();
+
+        if (currentPortal != null) currentPortal.portalCanvas.SetActive(true);
     }
 }

@@ -51,7 +51,7 @@ public class GamePauseManager : MonoBehaviour
     {
         portalMenuCanvas = CheckpointManager.instance.currentPortal;
         var portalResumeButton = portalMenuCanvas?.transform.Find("[Button] Resume").gameObject;
-        yield return portalResumeButton.GetComponent<TeleportMenuButton>().ProcessPauseMenuButtons();
+        yield return portalResumeButton.GetComponent<PortalMenuButton>().ProcessPauseMenuButtons();
     }
 
     public void PauseGame()

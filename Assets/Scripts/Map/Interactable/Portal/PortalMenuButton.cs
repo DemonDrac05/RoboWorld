@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class TeleportMenuButton : PauseMenuButton
+public class PortalMenuButton : PauseMenuButton
 {
     [Header("=== Teleport Canvas ==========")]
     private GameObject portalMenuCanvas;
-    private GameObject currentPortal;
+    private TeleportPortal currentPortal;
 
     protected const string Menu_Save = Menu_ButtonName + " Save";
     protected const string Menu_Map = Menu_ButtonName + " Map";
@@ -15,7 +15,7 @@ public class TeleportMenuButton : PauseMenuButton
         base.OnEnable();
         GamePauseManager.instance.PauseGame();
 
-        currentPortal = GetComponentInParent<TeleportPortal>().gameObject;
+        currentPortal = GetComponentInParent<TeleportPortal>();
         portalMenuCanvas = currentPortal.transform.Find("PortalCanvas").gameObject;
     }
 
@@ -24,6 +24,7 @@ public class TeleportMenuButton : PauseMenuButton
         switch (this.gameObject.name)
         {
             case Menu_Resume:
+                currentPortal.IsResumeButtonPressed = true;
                 GamePauseManager.instance.ResumeGame();
                 portalMenuCanvas.SetActive(false);
                 break;

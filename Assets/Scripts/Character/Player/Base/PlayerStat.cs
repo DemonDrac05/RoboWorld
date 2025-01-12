@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerStat : BaseStatManager
 {
-    public PlayerStatSO playerStatSO;
+    public PlayerStatSO playerStatSO { get; private set; }
 
     public static PlayerStat playerStat { get; private set; }
 
@@ -25,6 +25,7 @@ public class PlayerStat : BaseStatManager
     public override void OnEnable()
     {
         playerStat = this;
+        playerStatSO = (PlayerStatSO)baseStatSO;
     }
 
     public void SetStamina(float val) => Stamina = Mathf.Clamp(val, 0, playerStatSO.maxStamina);
