@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyState
 {
-    public new Enemy enemy;
+    private Drone drone;
 
     public EnemyIdleState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
-        this.enemy = enemy;
+        if (enemy is Drone) this.drone = (Drone)enemy;
     }
 
     public override void EnterState()
     {
-        enemy.animator.Play("Idle");
+        enemy.Animator.Play("Idle");
     }
 
     public override void FrameUpdate()

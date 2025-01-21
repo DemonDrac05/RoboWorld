@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -8,10 +9,9 @@ public class Enemy : MonoBehaviour
     public float movementSpeed;
     public float rotationSpeed;
 
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public Collider collider;
-
-    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public Animator Animator;
+    [HideInInspector] public Collider Collider;
+    [HideInInspector] public Rigidbody Rigidbody;
 
     [HideInInspector] public bool chaseRangeTrigger;
     [HideInInspector] public bool shootRangeTrigger;
@@ -32,20 +32,23 @@ public class Enemy : MonoBehaviour
         attackState = new EnemyAttackState(this, stateMachine);
     }
 
+    public virtual void OnEnable()
+    {
+        Animator = GetComponentInChildren<Animator>();
+        Collider = GetComponent<Collider>();
+        Rigidbody = GetComponent<Rigidbody>();
+    }
+
     public virtual void Start()
     {
-        animator = GetComponent<Animator>();
-        collider = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
-
         stateMachine.Initialize(idleState);
     }
 
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         stateMachine.enemyState.PhysicsUpdate();
     }
-    private void Update()
+    public virtual void Update()
     {
         stateMachine.enemyState.FrameUpdate();
     }

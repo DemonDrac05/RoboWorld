@@ -23,12 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove { get; private set; } = false;
 
     // --- SINGLETON CLASS ---
-    private CheckEnemyInAARange _checkEnemyInAARange;
     private Player _player;
 
     private void Awake()
     {
-        _checkEnemyInAARange = GetComponentInChildren<CheckEnemyInAARange>();
         _player = GetComponent<Player>();
     }
 
@@ -38,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleInput();
         }
-        Debug.Log(canMove);
     }
 
     private void HandleInput()

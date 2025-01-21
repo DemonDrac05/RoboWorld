@@ -11,6 +11,7 @@ public class EnemyChaseRange : MonoBehaviour
         if (triggerCollision.gameObject.CompareTag("Player"))
         {
             enemy.chaseRangeTrigger = true;
+            Debug.Log("Player in chase zone");
         }
     }
 
@@ -19,6 +20,7 @@ public class EnemyChaseRange : MonoBehaviour
         if (triggerCollision.gameObject.CompareTag("Player"))
         {
             enemy.chaseRangeTrigger = false;
+            Debug.Log("Player out chase zone");
         }
     }
 }
