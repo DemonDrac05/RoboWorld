@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStat : BaseStatManager
 {
@@ -26,6 +27,14 @@ public class PlayerStat : BaseStatManager
     {
         playerStat = this;
         playerStatSO = (PlayerStatSO)baseStatSO;
+    }
+
+    public void Update()
+    {
+        if (playerStat.Health <= 0f)
+        {
+            SceneManager.LoadScene("MenuScene");
+        }
     }
 
     public void SetStamina(float val) => Stamina = Mathf.Clamp(val, 0, playerStatSO.maxStamina);
