@@ -26,12 +26,8 @@ public class Drone : Enemy
     public override void Update()
     {
         UpdateAnimationState();
-
-        if (_player.GetComponent<PlayerStat>().Health > 0f)
-        {
-            MoveToAttackPoint();
-            RotateTowardsPlayer();
-        }
+        MoveToAttackPoint();
+        RotateTowardsPlayer();
         SetPosition();
     }
 
