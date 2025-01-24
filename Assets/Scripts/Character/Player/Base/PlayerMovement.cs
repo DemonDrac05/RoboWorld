@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("=== Move Properties ===========")]
     public float movementSpeed;
-    public float rotationSpeed;
+    [SerializeField] private float _rotationSpeed = 10f;
+
 
     // --- POSITION ----------
     private Vector3 charDirection;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         if (!GamePauseManager.instance.isPaused)
         {
             HandleInput();
+            RotateCharacter();
         }
     }
 
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         movementInput = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
     }
 
+
     public void MoveProcess()
     {
         if (movementInput != Vector3.zero)
@@ -68,49 +71,23 @@ public class PlayerMovement : MonoBehaviour
             _player.SetMobility(false);
         }
     }
-
     public void RotateCharacter()
     {
-        if (!canMove || movementInput == Vector3.zero) return;
+        Vector3 mousePos = Input.mousePosition;
 
-        //Vector3 targetDirection = Vector3.zero;
-        //if (_checkEnemyInAARange.enemies.Count > 0)
-        //{
-        //    Transform closestEnemy = null;
-        //    float closestDistance = Mathf.Infinity;
+        Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
-        //    foreach (Enemy enemy in _checkEnemyInAARange.enemies)
-        //    {
-        //        float distance = Vector3.Distance(transform.position, enemy.transform.position);
-        //        if (distance < closestDistance)
-        //        {
-        //            closestDistance = distance;
-        //            closestEnemy = enemy.transform;
-        //        }
-        //    }
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, clickableLayer))
+        {
+            Vector3 lookDir = hit.point - transform.position;
+            lookDir.y = 0; 
 
-        //    if (closestEnemy != null)
-        //    {
-        //        targetDirection = closestEnemy.position - transform.position;
-        //    }
-
-        //    targetDirection.y = 0;
-
-        //    if (targetDirection.sqrMagnitude > 0.01f)
-        //    {
-        //        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        //    }
-        //}
-        //else
-        //{
-        //    Quaternion targetRotation = Quaternion.LookRotation(charDirection);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        //}
-
-        Quaternion targetRotation = Quaternion.LookRotation(charDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            if (lookDir == Vector3.zero) return;
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+        }
     }
+
 
     public void SetMobility(bool value)
     {
