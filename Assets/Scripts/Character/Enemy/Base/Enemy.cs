@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     public EnemyAttackState attackState;
 
     public static Enemy enemy;
+    protected Player _player;
+
     public virtual void Awake()
     {
         enemy = this;
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour
     public virtual void Start()
     {
         stateMachine.Initialize(idleState);
+        _player = Player.player;
     }
 
     public virtual void FixedUpdate()

@@ -25,9 +25,7 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/TerrainScene.unity
   - m_enabled: 1
-    m_path: Assets/Scenes/EnemyScene.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/BossScene.unity
+    m_path: Assets/Scenes/TestingGameplayScene.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings: []

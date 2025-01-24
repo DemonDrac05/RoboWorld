@@ -5,7 +5,7 @@ using UnityEngine;
 public class CheckpointSO : ScriptableObject
 {
     public List<Vector3> checkpoints = new List<Vector3>();
-    private Vector3 _defaultCheckpoint = new Vector3(0f, -11.59f, 0f);
+    private Vector3 _defaultCheckpoint = new Vector3(757f, 0f, 3f);
 
     public void LoadData(string path)
     {

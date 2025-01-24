@@ -28,26 +28,20 @@ public class Bullet : MonoBehaviour
             HandlePlayerCollision(cachedPlayerStat);
         }
 
-        Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.identity);
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 
     private void HandleEnemyCollision(EnemyStat enemyStat)
     {
-        var player = bulletParent.GetComponentInParent<PlayerStat>();
-        if (player != null)
-        {
-            CombatManager.instance.ApplyRangedDamage(player, enemyStat);
-        }
+        enemyStat.TakeHealthDamage(50f);
     }
 
     private void HandlePlayerCollision(PlayerStat playerStat)
     {
-        var enemy = bulletParent.GetComponentInParent<EnemyStat>();
-        if (enemy != null)
-        {
-            CombatManager.instance.ApplyRangedDamage(enemy, playerStat);
-            Player.player.stateMachine.ChangeState(Player.player.healthState);
-        }
+        playerStat.TakeHealthDamage(1f);
     }
 }

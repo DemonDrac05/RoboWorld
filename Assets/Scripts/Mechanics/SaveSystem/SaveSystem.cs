@@ -66,7 +66,7 @@ public static class SaveSystem
 
     public static async UniTask LoadGameSceneAsync()
     {
-        var asyncOp = SceneManager.LoadSceneAsync("TerrainScene");
+        var asyncOp = SceneManager.LoadSceneAsync("TestingGameplayScene");
         asyncOp.allowSceneActivation = false;
 
         while (asyncOp.progress < 0.9f)
