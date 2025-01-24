@@ -13,7 +13,7 @@ public class EnemyAttackState : EnemyState
 
     public override void EnterState()
     {
-        base.EnterState();
+        enemy.Animator.Play("Armature_Fire");
     }
 
     public override void ExitState()
@@ -23,12 +23,6 @@ public class EnemyAttackState : EnemyState
 
     public override void FrameUpdate()
     {
-        var lightningBeam = enemy.GetComponentInChildren<ParticleSystem>();
-        if (!lightningBeam.isPlaying && lightningBeam != null)
-        {
-            lightningBeam.Play();
-        }
-
         CheckFacingToPlayer();
 
         if (!enemy.shootRangeTrigger && enemy.chaseRangeTrigger)

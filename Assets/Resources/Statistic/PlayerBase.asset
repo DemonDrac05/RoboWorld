@@ -32,5 +32,5 @@ MonoBehaviour:
   shieldRecDuration: 1
   staminaRecPercentage: 0.1
   staminaRecDuration: 1
-  checkPoint: {x: 0, y: -5, z: 0}
+  checkPoint: {x: 25, y: -5, z: 25}
   heightOfCheckpoint: 5
