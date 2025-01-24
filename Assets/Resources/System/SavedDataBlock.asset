@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c4ceaa51bc5b04eae9f8c0631252f1, type: 3}
   m_Name: SavedDataBlock
   m_EditorClassIdentifier: 
-  saveBlockDatas:
-  - savePath: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/TestingTopDown3D\playerData1.json
-    blockName: '[Button] SavePath1'
-    blockPosition: {x: 0, y: 175, z: 0}
+  saveBlockDatas: []
