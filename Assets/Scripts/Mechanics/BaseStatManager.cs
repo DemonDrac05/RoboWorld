@@ -38,7 +38,7 @@ public class BaseStatManager : MonoBehaviour
     }
 
     protected void SetSpeed(float val) => Speed = Mathf.Clamp(val, 0f, baseStatSO.maxSpeed);
-    protected void SetHealth(float val) => Health = Mathf.Clamp(val, 0, baseStatSO.maxHealth);
+    public void SetHealth(float val) => Health = Mathf.Clamp(val, 0, baseStatSO.maxHealth);
     protected void SetShield(float val) => Shield = Mathf.Clamp(val, 0, baseStatSO.maxShield);
     protected void SetDefense(float val) => Defense = Mathf.Clamp(val, 0, baseStatSO.maxDefense);
     public void SetRangeWeaponDamage(float val) => RangeWeaponDamage = Mathf.Clamp(val, 0, baseStatSO.rangeWeaponDamage);

@@ -42,6 +42,6 @@ public class Bullet : MonoBehaviour
 
     private void HandlePlayerCollision(PlayerStat playerStat)
     {
-        playerStat.TakeHealthDamage(100f);
+        playerStat.TakeHealthDamage(36f);
     }
 }

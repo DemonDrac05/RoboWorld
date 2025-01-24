@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.SceneManagement;
 
 public class HealthState : PlayerState
 {
@@ -28,7 +29,7 @@ public class HealthState : PlayerState
             else if (player.Animator.GetCurrentAnimatorStateInfo(0).IsName(BackwardKO)
                     || player.Animator.GetCurrentAnimatorStateInfo(0).IsName(ForwardKO))
             {
-                GameReloadManager.instance.ReloadScene();
+                SceneManager.LoadScene("MenuScene");
             }
         }
     }
