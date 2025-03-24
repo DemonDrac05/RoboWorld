@@ -27,16 +27,12 @@ public class PlayerPhysics : MonoBehaviour
         SetBodyOnGround();
 
         player.SetGrounded(CheckIsGrounded());
-
-        if (CheckIsGrounded()) Debug.Log("On Ground");
     }
 
     public bool CheckIsGrounded()
     {
-        // Use a more appropriate origin, starting a bit above the player's center
-        Vector3 raycastOrigin = transform.position + Vector3.up * 0.1f; // Add small offset above the center
+        Vector3 raycastOrigin = transform.position + Vector3.up * 0.1f;
 
-        // Ensure playerMovement.clickableLayer is valid
         if (playerMovement == null)
         {
             Debug.LogError("PlayerMovement reference not initialized.");
