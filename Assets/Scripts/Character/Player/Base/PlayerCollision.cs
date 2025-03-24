@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
+
+    private PlayerMovement playerMovement;
     private Player player;
 
     private bool isTouchingWall = false;
@@ -12,6 +14,8 @@ public class PlayerCollision : MonoBehaviour
     private void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+
+        playerMovement = GetComponent<PlayerMovement>();
         player = GetComponent<Player>();
     }
 
@@ -36,6 +40,11 @@ public class PlayerCollision : MonoBehaviour
                 playerRigidbody.linearVelocity = new Vector3(playerRigidbody.linearVelocity.x, maxSlideSpeed, playerRigidbody.linearVelocity.z);
             }
         }
+        //if (collision.gameObject.CompareTag("Floor"))
+        //{
+        //    playerMovement.SetMobility(true);
+        //    Debug.Log("On Floor");
+        //}
     }
 
     private void OnCollisionExit(Collision collision)

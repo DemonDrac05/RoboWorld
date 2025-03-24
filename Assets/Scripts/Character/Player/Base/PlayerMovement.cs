@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -12,84 +13,85 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("=== Move Properties ===========")]
     public float movementSpeed;
-    public float rotationSpeed;
+    [SerializeField] private float _rotationSpeed = 10f;
 
-    // --- Position Variables ----------
-    private Vector3 targetPosition;
+
+    // --- POSITION ----------
     private Vector3 charDirection;
+    private Vector3 movementInput;
 
-    // --- Mobility Control ---
-    private bool canMove = true;
+    // --- MOBILITY CONTROL ---
+    public bool canMove { get; private set; } = false;
 
-    // --- Player reference ---
-    private Player player;
+    // --- SINGLETON CLASS ---
+    private Player _player;
 
-    private void Awake() => player = GetComponent<Player>();
-
-    public void MoveCharacter()
+    private void Awake()
     {
-        if (!canMove) return;
+        _player = GetComponent<Player>();
+    }
 
-        if (Mouse.current.leftButton.isPressed)
+    private void Update()
+    {
+        if (!GamePauseManager.instance.isPaused)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
-            {
-                targetPosition = hit.point;
-                player.SetMobility(true);
-            }
-        }
-
-        if (player.IsMoving)
-        {
-            MoveProcess();
-        }
-        else
-        {
-            targetPosition = transform.position;
+            HandleInput();
+            RotateCharacter();
         }
     }
+
+    private void HandleInput()
+    {
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraRight = mainCamera.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        movementInput = (cameraForward * verticalInput) + (cameraRight * horizontalInput);
+    }
+
 
     public void MoveProcess()
     {
-        charDirection = (targetPosition - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, targetPosition);
-        if (distance > 0.1f)
+        if (movementInput != Vector3.zero)
         {
+            charDirection = movementInput.normalized;
             transform.position += charDirection * movementSpeed * Time.deltaTime;
+            _player.SetMobility(true);
         }
         else
         {
-            player.SetMobility(false);
+            _player.SetMobility(false);
         }
     }
-
     public void RotateCharacter()
     {
-        if (!canMove) return; 
+        Vector3 mousePos = Input.mousePosition;
 
-        Vector3 mousePosition = Input.mousePosition;
-        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        Ray ray = mainCamera.ScreenPointToRay(mousePos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, clickableLayer))
         {
-            Vector3 targetPosition = hitInfo.point;
-            Vector3 direction = targetPosition - transform.position;
-            direction.y = 0;
+            Vector3 lookDir = hit.point - transform.position;
+            lookDir.y = 0; 
 
-            if (direction.sqrMagnitude > 0.01f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-            }
+            if (lookDir == Vector3.zero) return;
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
         }
     }
+
 
     public void SetMobility(bool value)
     {
-        player.SetMobility(value);
+        _player.SetMobility(value);
         canMove = value;
     }
 }
-

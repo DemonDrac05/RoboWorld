@@ -17,7 +17,7 @@ public class EnemyChaseState : EnemyState
 
     public override void EnterState()
     {
-        enemy.animator.Play("Idle");
+        enemy.Animator.Play("Idle");
     }
 
     public override void ExitState()

@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IComponents, IVariables
 
     // --- STATE MACHINE ----------
     public PlayerStateMachine stateMachine { get; private set; }
-    public MovementState movementState;
+    public MoveState movementState;
     public RollState rollState;
     public FallState fallState;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, IComponents, IVariables
         stateMachine = new PlayerStateMachine();
         var factory = new PlayerStateFactory(this, stateMachine);
 
-        movementState = (MovementState)factory.CreateState<MovementState>();
+        movementState = (MoveState)factory.CreateState<MoveState>();
         rollState = (RollState)factory.CreateState<RollState>();
         fallState = (FallState)factory.CreateState<FallState>();
 
@@ -53,9 +53,6 @@ public class Player : MonoBehaviour, IComponents, IVariables
 
     private void Start()
     {
-        // --- SET POSITION ----------
-        transform.position = PlayerStat.playerStat.Checkpoint;
-
         // --- SET 1. STATE ----------
         stateMachine.Initialize(fallState);
     }

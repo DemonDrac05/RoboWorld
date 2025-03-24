@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,6 +10,7 @@ public class PlayerInteract : MonoBehaviour
 
     // --- TRIGGER VARIABLES ----------
     [HideInInspector] public bool isTriggerPortal = false;
+    private bool _isActivating = false;
 
     // --- IMAGES ----------
     private Image interact_BackgroundImage;
@@ -38,12 +38,16 @@ public class PlayerInteract : MonoBehaviour
         controls.Gameplay.Interact.performed += OnInteract;
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
+    private async void OnInteract(InputAction.CallbackContext context)
     {
-        if (isTriggerPortal)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(ActivateProcess());
-            isTriggerPortal = false;
+            if (isTriggerPortal && !_isActivating)
+            {
+                _isActivating = true;
+                await ActivateProcess();
+                _isActivating = false;
+            }
         }
     }
 
@@ -51,7 +55,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (isTriggerPortal)
         {
-            interactCanvas?.SetActive(!currentPortal.teleportCanvas.activeSelf);
+            interactCanvas?.SetActive(!currentPortal.portalCanvas.activeSelf);
         }
         else
         {
@@ -61,20 +65,21 @@ public class PlayerInteract : MonoBehaviour
 
     public void SetCurrentPortal(TeleportPortal portal) => currentPortal = portal;
 
-    private IEnumerator ActivateProcess()
+    private async UniTask ActivateProcess()
     {
         GUIManager.instance.SetImageAlphaColor(interact_BackgroundImage, 255f);
         GUIManager.instance.SetImageAlphaColor(interact_FrameImage, 255f);
 
-        yield return new WaitForSeconds(0.25f);
+        await UniTask.Delay(250);
 
-        interactCanvas.SetActive(false);
 
         GUIManager.instance.SetImageAlphaColor(interact_BackgroundImage, 25f);
         GUIManager.instance.SetImageAlphaColor(interact_FrameImage, 25f);
 
-        yield return new WaitUntil(() => !interactCanvas.activeSelf);
+        interactCanvas.SetActive(false);
 
-        if (currentPortal != null) currentPortal.teleportCanvas.SetActive(true);
+        await currentPortal.PortalOpening();
+
+        if (currentPortal != null) currentPortal.portalCanvas.SetActive(true);
     }
 }

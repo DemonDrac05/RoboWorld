@@ -2,9 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Cysharp.Threading.Tasks;
 
 public class TeleportPortal : MonoBehaviour
 {
+    [Header("=== Portal Properties ==========")]
+    // --- SIGNAL OBJECT ----------
+    [SerializeField] private GameObject portalSignalsGroup;
+    [SerializeField] private GameObject portalSignalPrefab;
+    private GameObject _currentPortalSignal = null;
+
+    [HideInInspector] public bool IsResumeButtonPressed = false;
+
+    private float _heightOfSignal = 2f;
+    private const string PortalSignalLabel = "[Portal Signal]";
+
+    // --- VARIABLES ----------
+    public string portalName;
+    public bool isOnPortalBase;
+
+    private bool _portalActivate = true;
+    private float _distanceOperating = 5f;
+    private Vector3 _relativePlayerPosition;
+    private Vector3 _offsetPortalPosition;
+    private Vector3 _lastPortalPosition;
+
     [Header("=== Components' Meshes ==========")]
     [SerializeField] private MeshRenderer _upperSkinnedMesh;
     [SerializeField] private MeshRenderer _lowerSkinnedMesh;
@@ -18,8 +40,8 @@ public class TeleportPortal : MonoBehaviour
     [SerializeField] private GameObject _circleEffect;
     [SerializeField] private VisualEffect _vfxgraphDissolve;
 
-    [Header("=== Teleport Menu ==========")]
-    public GameObject teleportCanvas;
+    [Header("=== Portal Menu ==========")]
+    public GameObject portalCanvas;
 
     [Header("=== Player Teleport ==========")]
     [SerializeField] private CheckpointSO _checkpoint;
@@ -77,13 +99,16 @@ public class TeleportPortal : MonoBehaviour
     private void Start()
     {
         _dissolveController.VFXGraph = _vfxgraphDissolve;
+        _offsetPortalPosition = new(transform.position.x, _heightOfSignal, transform.position.z);
+        _lastPortalPosition = transform.position;
 
+        PortalActiveStatus();
         StartRespawnProcess();
     }
 
     private void StartRespawnProcess()
     {
-        if (_player.transform.position.x == transform.position.x 
+        if (_player.transform.position.x == transform.position.x
             && _player.transform.position.z == transform.position.z)
         {
             StartCoroutine(TeleportProcess());
@@ -92,6 +117,8 @@ public class TeleportPortal : MonoBehaviour
 
     private IEnumerator TeleportProcess()
     {
+        Player.player.SetMobility(false);
+
         GameObject circle = Instantiate(_circleEffect, _player.transform.position, _circleEffect.transform.rotation);
 
         yield return DissolveProcess(false);
@@ -100,8 +127,10 @@ public class TeleportPortal : MonoBehaviour
 
         yield return new WaitUntil(() => splash.GetComponent<ParticleSystem>().isStopped);
 
-        Destroy(splash); 
+        Destroy(splash);
         Destroy(circle);
+
+        yield return PortalClosing();
     }
 
     private IEnumerator DissolveProcess(bool dissolve)
@@ -113,6 +142,68 @@ public class TeleportPortal : MonoBehaviour
         _player.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
+    private async void FixedUpdate()
+    {
+        if (IsResumeButtonPressed)
+        {
+            IsResumeButtonPressed = false;
+            await PortalClosing();
+        }
+
+        if (!_portalActivate)
+        {
+            CreatePortalSignal();
+        }
+        else
+        {
+            DestroyPortalSignal();
+        }
+    }
+
+    private void PortalActiveStatus()
+    {
+        PlayerData playerData = SaveSystem.LoadGame();
+        Vector3 XZPosition = new(playerData.checkpoint[0], _heightOfSignal, playerData.checkpoint[2]);
+        if (XZPosition != _offsetPortalPosition)
+        {
+            _portalActivate = false;
+
+            Vector3 currentPos = transform.position;
+            transform.position = new(currentPos.x, currentPos.y - _distanceOperating, currentPos.z);
+            _lastPortalPosition = transform.position;
+        }
+        else
+        {
+            _portalActivate = true;
+        }
+    }
+
+    private void CreatePortalSignal()
+    {
+        if (_currentPortalSignal == null)
+        {
+            _currentPortalSignal = Instantiate(portalSignalPrefab, portalSignalsGroup.transform);
+            _currentPortalSignal.transform.position = _offsetPortalPosition;
+            _currentPortalSignal.name = PortalSignalLabel + name;
+
+            var portalSignalCollider = _currentPortalSignal.GetComponentInChildren<CheckPlayerOnPortalSignal>();
+            portalSignalCollider.SetPortal(this);
+        }
+    }
+
+    private void DestroyPortalSignal()
+    {
+        if (_currentPortalSignal != null)
+        {
+            if (portalSignalsGroup.transform.Find(_currentPortalSignal.name) != null)
+            {
+                GameObject newObj = _currentPortalSignal;
+                Destroy(newObj);
+            }
+            _currentPortalSignal = null;
+        }
+    }
+
     private void OnTriggerStay(Collider collider)
     {
         if (collider == Player.player.Collider)
@@ -120,18 +211,23 @@ public class TeleportPortal : MonoBehaviour
             _playerInteract.isTriggerPortal = true;
             _playerInteract.SetCurrentPortal(this);
 
+            if (isOnPortalBase)
+            {
+                _relativePlayerPosition = _player.transform.position - transform.position;
+            }
+
             SetMaterialEmission(EmissionState.Activate);
 
             if (!_checkpoint.checkpoints.Contains(this.transform.position))
             {
                 _checkpoint.checkpoints.Add(this.transform.position);
-                StartCoroutine(UnlockPortalProcess());
+                //StartCoroutine(UnlockPortalProcess());
             }
         }
     }
 
-    private void SetPlayerPosInCenter(Vector3 teleportPos, float posY) 
-        => _player.transform.position = new(teleportPos.x, posY, teleportPos.z);
+    private void SetPlayerPosInCenter(Vector3 teleportPos, float posY)
+         => _player.transform.position = new(teleportPos.x, posY, teleportPos.z);
 
     private IEnumerator UnlockPortalProcess()
     {
@@ -158,6 +254,82 @@ public class TeleportPortal : MonoBehaviour
             _playerInteract.SetCurrentPortal(null);
         }
     }
+
+    public async UniTask PortalOpening()
+    {
+        _playerMovement.SetMobility(false);
+
+        SetPlayerPosInCenter(transform.position, 0f);
+        float elapsedTimer = 0f;
+        float animationDuration = 2f;
+
+        await UniTask.WaitUntil(() => transform.position == _lastPortalPosition);
+
+        Vector3 offsetPos = transform.position;
+        Vector3 targetPos = new Vector3(offsetPos.x, offsetPos.y + _distanceOperating, offsetPos.z);
+
+        while (elapsedTimer < animationDuration)
+        {
+            float t = elapsedTimer / animationDuration;
+
+            transform.position = Vector3.Lerp(offsetPos, targetPos, t);
+
+            if (_playerInteract.isTriggerPortal)
+            {
+                _player.Rigidbody.MovePosition(transform.position + _relativePlayerPosition);
+            }
+
+
+            elapsedTimer += Time.deltaTime;
+
+            await UniTask.Yield();
+        }
+
+        _portalActivate = true;
+        transform.position = targetPos;
+        _lastPortalPosition = transform.position;
+
+        await UniTask.WaitUntil(() => transform.position == targetPos);
+    }
+
+    public async UniTask PortalClosing()
+    {
+        float elapsedTimer = 0f;
+        float animationDuration = 2f;
+
+        await UniTask.WaitUntil(() => transform.position == _lastPortalPosition);
+
+        Vector3 offsetPos = transform.position;
+        Vector3 targetPos = new Vector3(offsetPos.x, offsetPos.y - _distanceOperating, offsetPos.z);
+
+        while (elapsedTimer < animationDuration)
+        {
+            float t = elapsedTimer / animationDuration;
+
+            transform.position = Vector3.Lerp(offsetPos, targetPos, t);
+
+            if (_playerInteract.isTriggerPortal)
+            {
+                _player.Rigidbody.MovePosition(transform.position + _relativePlayerPosition);
+            }
+            else
+            {
+                _playerMovement.SetMobility(true);
+            }
+
+            elapsedTimer += Time.deltaTime;
+
+            await UniTask.Yield();
+        }
+
+        _portalActivate = false;
+        transform.position = targetPos;
+        _playerMovement.SetMobility(true);
+        _lastPortalPosition = transform.position;
+
+        await UniTask.WaitUntil(() => transform.position == targetPos);
+    }
+
 
     private void SetMaterialEmission(EmissionState emissionState)
     {

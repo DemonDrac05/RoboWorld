@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,10 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake() => playerStat = GetComponent<PlayerStat>();
 
-    private void Start()
+    private async void Start()
     {
+        await UniTask.WaitUntil(() => playerStat != null);
+
         if (playerStat != null)
         {
             InitializeStatUI(ref currentHealth, healthSlider, maxHealthText, playerStat.Health);
